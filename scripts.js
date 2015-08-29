@@ -32,6 +32,18 @@ function productSelectionChanged() {
     $('#nutritive_value_value').text(selectedProduct['nutritive_value']);
 }
 
+var Product = Backbone.Model.extend({
+    defaults: {
+        product_name: '',
+        proteins: 0,
+        carbohydrates: 0,
+        fats: 0,
+        nutritive_value: 0
+    }
+});
+
+var ProductList = Backbone.Collection.extend({model: Product});
+
 var Meal = Backbone.Model.extend({
     defaults: {
         name: 'MealX'
@@ -49,20 +61,22 @@ $(function () {
 
         events: {
             'click button.delete': 'remove',
-            'click button.add_product': 'add_product'
+            'click button.add_product': 'addProduct'
         },
 
         initialize: function () {
-            _.bindAll(this, 'render', 'unrender', 'remove');
+            _.bindAll(this, 'render', 'unrender', 'remove', 'addProduct', 'appendProduct');
 
             this.model.bind('change', this.render);
             this.model.bind('remove', this.unrender);
-            this.model.bind('add_product', this.add_product)
+            this.model.bind('addProduct', this.addProduct);
+            this.model.get('productList').bind('add', this.appendProduct);
+
         },
 
         render: function () {
             $(this.el).append('<div class="panel-heading"><div class="row"><div class="col-md-4">' + this.model.get('name') + '</div><div class="row"><div class="col-md-4"><button type="button" class="btn btn-success add_product">Add Product</button></div><div class="col-md-3"><button type="button" class="btn btn-danger delete">Remove Meal</button></div></div></div>');
-            $(this.el).append('<div class="panel-body"></div>');
+            $(this.el).append('<div class="panel-body"><table class="table"><th>Product Name</th><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></table></div>');
             return this;
         },
 
@@ -74,10 +88,22 @@ $(function () {
             this.model.destroy();
         },
 
-        add_product: function () {
+        addProduct: function () {
             var selectedText = $('.selectpicker').find("option:selected").text();
             var selectedProduct = products.getProduct(selectedText);
-            alert(JSON.stringify(selectedProduct));
+            var product = new Product();
+            product.set({
+                product_name: selectedProduct["product_name"],
+                proteins: selectedProduct["proteins"],
+                carbohydrates: selectedProduct["carbohydrates"],
+                fats: selectedProduct["fats"],
+                nutritive_value: selectedProduct["nutritive_value"]
+            });
+            this.model.get('productList').add(product);
+        },
+
+        appendProduct: function(product) {
+            $('table', this.el).append('<tr><td>' + product.get('product_name') + '</td><td>' + product.get('proteins') + '</td><td>' + product.get('carbohydrates') + '</td><td>' + product.get('fats') + '</td><td>' + product.get('nutritive_value') + '</td></tr>');
         }
 
     });
@@ -92,8 +118,8 @@ $(function () {
 
         initialize: function () {
             _.bindAll(this, 'render', 'addMeal', 'appendMeal');
-            this.collection = new MealList();
-            this.collection.bind('add', this.appendMeal);
+            this.mealList = new MealList();
+            this.mealList.bind('add', this.appendMeal);
 
             this.counter = 0;
             this.render();
@@ -107,9 +133,10 @@ $(function () {
             this.counter++;
             var meal = new Meal();
             meal.set({
-                name: 'Meal ' + this.counter
+                name: 'Meal ' + this.counter,
+                productList: new ProductList()
             });
-            this.collection.add(meal);
+            this.mealList.add(meal);
         },
 
         appendMeal: function (meal) {
