@@ -24,8 +24,12 @@ var products = new Products();
 
 function productSelectionChanged() {
     var selectedText = $('.selectpicker').find("option:selected").text();
-
-    alert(JSON.stringify(products.getProduct(selectedText)));
+    var selectedProduct = products.getProduct(selectedText);
+    $('#product_name_value').text(selectedProduct['product_name']);
+    $('#proteins_value').text(selectedProduct['proteins']);
+    $('#carbohydrates_value').text(selectedProduct['carbohydrates']);
+    $('#fats_value').text(selectedProduct['fats']);
+    $('#nutritive_value_value').text(selectedProduct['nutritive_value']);
 }
 
 $(document).ready(function () {
