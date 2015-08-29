@@ -32,23 +32,24 @@ function productSelectionChanged() {
     $('#nutritive_value_value').text(selectedProduct['nutritive_value']);
 }
 
+var Meal = Backbone.Model.extend({
+    defaults: {
+        name: 'MealX'
+    }
+});
+
+var MealList = Backbone.Collection.extend({
+    model: Meal
+});
+
 $(function () {
-
-    var Meal = Backbone.Model.extend({
-        defaults: {
-            name: 'MealX'
-        }
-    });
-
-    var MealList = Backbone.Collection.extend({
-        model: Meal
-    });
-
     var MealView = Backbone.View.extend({
         tagName: 'div',
+        className: 'panel panel-default',
 
         events: {
-            'click button.delete': 'remove'
+            'click button.delete': 'remove',
+            'click button.add_product': 'add_product'
         },
 
         initialize: function () {
@@ -56,10 +57,12 @@ $(function () {
 
             this.model.bind('change', this.render);
             this.model.bind('remove', this.unrender);
+            this.model.bind('add_product', this.add_product)
         },
 
         render: function () {
-            $(this.el).html('<div class="panel panel-default"><div class="panel-heading"><div class="row"><div class="col-md-8">' + this.model.get('name') + '</div><div class="col-md-4"><button type="button" class="btn btn-danger delete">Remove Meal</button></div></div></div></div>');
+            $(this.el).append('<div class="panel-heading"><div class="row"><div class="col-md-4">' + this.model.get('name') + '</div><div class="row"><div class="col-md-4"><button type="button" class="btn btn-success add_product">Add Product</button></div><div class="col-md-3"><button type="button" class="btn btn-danger delete">Remove Meal</button></div></div></div>');
+            $(this.el).append('<div class="panel-body"></div>');
             return this;
         },
 
@@ -69,6 +72,12 @@ $(function () {
 
         remove: function () {
             this.model.destroy();
+        },
+
+        add_product: function () {
+            var selectedText = $('.selectpicker').find("option:selected").text();
+            var selectedProduct = products.getProduct(selectedText);
+            alert(JSON.stringify(selectedProduct));
         }
 
     });
@@ -91,7 +100,7 @@ $(function () {
         },
 
         render: function () {
-            $(this.el).append('<div id="meal_list" class="panel-group"><h2>Meals</h2><button id="add_meal" type="button" class="btn btn-default">Add Meal</button></div>');
+            $(this.el).append('<div class="panel-group meal_list"><h2>Meals</h2><button id="add_meal" type="button" class="btn btn-success">Add Meal</button></div>');
         },
 
         addMeal: function () {
@@ -107,14 +116,10 @@ $(function () {
             var mealView = new MealView({
                 model: meal
             });
-            $('#meal_list').append(mealView.render().el);
+            $('div.meal_list', this.el).append(mealView.render().el);
         }
     });
     var mealListView = new MealListView();
-
-});
-
-$(document).ready(function () {
 
     var xmlhttp = new XMLHttpRequest();
     var url = "http://192.168.0.14:9201/products/_search?size=1000";
@@ -144,6 +149,5 @@ $(document).ready(function () {
     };
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
-
 
 });
