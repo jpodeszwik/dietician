@@ -32,6 +32,88 @@ function productSelectionChanged() {
     $('#nutritive_value_value').text(selectedProduct['nutritive_value']);
 }
 
+$(function () {
+
+    var Meal = Backbone.Model.extend({
+        defaults: {
+            name: 'MealX'
+        }
+    });
+
+    var MealList = Backbone.Collection.extend({
+        model: Meal
+    });
+
+    var MealView = Backbone.View.extend({
+        tagName: 'div',
+
+        events: {
+            'click button.delete': 'remove'
+        },
+
+        initialize: function () {
+            _.bindAll(this, 'render', 'unrender', 'remove');
+
+            this.model.bind('change', this.render);
+            this.model.bind('remove', this.unrender);
+        },
+
+        render: function () {
+            $(this.el).html('<div class="panel panel-default"><div class="panel-heading"><div class="row"><div class="col-md-8">' + this.model.get('name') + '</div><div class="col-md-4"><button type="button" class="btn btn-danger delete">Remove Meal</button></div></div></div></div>');
+            return this;
+        },
+
+        unrender: function () {
+            $(this.el).remove();
+        },
+
+        remove: function () {
+            this.model.destroy();
+        }
+
+    });
+
+    var MealListView = Backbone.View.extend({
+
+        el: $('#meals_container'),
+
+        events: {
+            'click button#add_meal': 'addMeal'
+        },
+
+        initialize: function () {
+            _.bindAll(this, 'render', 'addMeal', 'appendMeal');
+            this.collection = new MealList();
+            this.collection.bind('add', this.appendMeal);
+
+            this.counter = 0;
+            this.render();
+        },
+
+        render: function () {
+            $(this.el).append('<div id="meal_list" class="panel-group"><h2>Meals</h2><button id="add_meal" type="button" class="btn btn-default">Add Meal</button></div>');
+        },
+
+        addMeal: function () {
+            this.counter++;
+            var meal = new Meal();
+            meal.set({
+                name: 'Meal ' + this.counter
+            });
+            this.collection.add(meal);
+        },
+
+        appendMeal: function (meal) {
+            var mealView = new MealView({
+                model: meal
+            });
+            $('#meal_list').append(mealView.render().el);
+        }
+    });
+    var mealListView = new MealListView();
+
+});
+
 $(document).ready(function () {
 
     var xmlhttp = new XMLHttpRequest();

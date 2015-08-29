@@ -9,38 +9,49 @@
     <script src="jquery.min.js"></script>
     <script src="bootstrap.min.js"></script>
     <script src="bootstrap-select.min.js"></script>
+    <script src="underscore-min.js"></script>
+    <script src="backbone-min.js"></script>
     <script src="scripts.js"></script>
 </head>
 <body>
-<div class="panel panel-default">
-    <div class="panel-heading">Select product</div>
-    <div class="panel-body">
-        <select id="product_selector" class="selectpicker" data-live-search="true"></select>
-        <div class="table-responsive">
-            <table class="table">
-                <tr>
-                    <th>Product Name</th>
-                    <td id="product_name_value"></td>
-                </tr>
-                <tr>
-                    <th>Proteins</th>
-                    <td id="proteins_value"></td>
-                </tr>
-                <tr>
-                    <th>Fats</th>
-                    <td id="fats_value"></td>
-                </tr>
-                <tr>
-                    <th>Carbohydrates</th>
-                    <td id="carbohydrates_value"></td>
-                </tr>
-                <tr>
-                    <th>Nutritive value</th>
-                    <td id="nutritive_value_value"></td>
-                </tr>
-            </table>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">Select product</div>
+        <div class="panel-body">
+            <select id="product_selector" class="selectpicker" data-live-search="true"></select>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>Product Name</th>
+                        <td id="product_name_value"></td>
+                    </tr>
+                    <tr>
+                        <th>Proteins</th>
+                        <td id="proteins_value"></td>
+                    </tr>
+                    <tr>
+                        <th>Fats</th>
+                        <td id="fats_value"></td>
+                    </tr>
+                    <tr>
+                        <th>Carbohydrates</th>
+                        <td id="carbohydrates_value"></td>
+                    </tr>
+                    <tr>
+                        <th>Nutritive value</th>
+                        <td id="nutritive_value_value"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-default">Add Product</button>
+            </div>
         </div>
     </div>
+</div>
+<div id="meals_container" class="container">
+
 </div>
 
 </body>
