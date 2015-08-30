@@ -37,7 +37,12 @@ var Product = Backbone.Model.extend({
         proteins: 0,
         carbohydrates: 0,
         fats: 0,
-        nutritive_value: 0
+        nutritive_value: 0,
+        weight: 0
+    },
+
+    effective_value: function (name) {
+        return this.get(name) * this.get('weight') / 100;
     }
 });
 
@@ -57,13 +62,28 @@ $(function () {
     var ProductView = Backbone.View.extend({
         tagName: 'tr',
 
+        events: {
+            "change input": "inputChanged"
+        },
+
         initialize: function () {
-            _.bindAll(this, 'render');
+            _.bindAll(this, 'render', 'inputChanged', 'effective_value');
+            this.model.bind('change', this.render, this);
         },
 
         render: function () {
-            $(this.el).append('<td>' + this.model.get('product_name') + '</td><td>' + this.model.get('proteins') + '</td><td>' + this.model.get('carbohydrates') + '</td><td>' + this.model.get('fats') + '</td><td>' + this.model.get('nutritive_value') + '</td>');
+            $('td', this.el).remove();
+            $(this.el).append('<td><input type="text" class="form-control" value="' + this.model.get('weight') + '"></input></td><td>' + this.model.get('product_name') + '</td><td>' + this.effective_value('proteins') + '</td><td>' + this.effective_value('carbohydrates') + '</td><td>' + this.effective_value('fats') + '</td><td>' + this.effective_value('nutritive_value') + '</td>');
             return this;
+        },
+
+        inputChanged: function (evt) {
+            var value = $(evt.currentTarget).val();
+            this.model.set('weight', value);
+        },
+
+        effective_value: function (param_name) {
+            return this.model.effective_value(param_name).toFixed(2);
         }
     });
 
@@ -77,7 +97,7 @@ $(function () {
         },
 
         render: function () {
-            $(this.el).append('<thead><th>Product Name</th><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></thead>');
+            $(this.el).append('<thead><th>Product weight</th><th>Product Name</th><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></thead>');
             $(this.el).append('<tbody></tbody>');
             return this;
         },
