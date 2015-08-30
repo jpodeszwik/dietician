@@ -55,18 +55,46 @@ var ProductList = Backbone.Collection.extend({
         });
         return _.reduce(mapped, function (memo, num) {
             return memo + num;
-        });
+        }, 0.0);
     }
 });
 
 var Meal = Backbone.Model.extend({
     defaults: {
-        name: 'MealX'
+        name: 'MealX',
+        productList: new ProductList()
+    },
+
+    initialize: function () {
+        var productList = new ProductList();
+        this.set('productList', productList);
+        this.listenTo(productList, 'change', function () {
+            this.trigger('change', this);
+        });
+    },
+
+    summaryValue: function (name) {
+        return this.get('productList').summaryValue(name);
     }
 });
 
 var MealList = Backbone.Collection.extend({
-    model: Meal
+    model: Meal,
+
+    initialize: function () {
+        var productList = new ProductList();
+        this.set('productList', productList);
+    },
+
+    summaryValue: function (name) {
+        var mapped = _.map(this.models, function (meal) {
+            return meal.summaryValue(name);
+        });
+
+        return _.reduce(mapped, function (memo, num) {
+            return memo + num;
+        }, 0.0);
+    }
 });
 
 $(function () {
@@ -83,8 +111,7 @@ $(function () {
         },
 
         render: function () {
-            $('td', this.el).remove();
-            $(this.el).append('<td><input type="text" class="form-control" value="' + this.model.get('weight') + '"></input></td><td>' + this.model.get('product_name') + '</td><td>' + this.effectiveValue('proteins') + '</td><td>' + this.effectiveValue('carbohydrates') + '</td><td>' + this.effectiveValue('fats') + '</td><td>' + this.effectiveValue('nutritive_value') + '</td>');
+            $(this.el).html('<td><input type="text" class="form-control" value="' + this.model.get('weight') + '"></input></td><td>' + this.model.get('product_name') + '</td><td>' + this.effectiveValue('proteins') + '</td><td>' + this.effectiveValue('carbohydrates') + '</td><td>' + this.effectiveValue('fats') + '</td><td>' + this.effectiveValue('nutritive_value') + '</td>');
             return this;
         },
 
@@ -109,9 +136,17 @@ $(function () {
         },
 
         render: function () {
-            $(this.el).append('<thead><th>Product weight</th><th>Product Name</th><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></thead>');
+            $(this.el).html('<thead><th>Product weight</th><th>Product Name</th><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></thead>');
             $(this.el).append('<tbody></tbody>');
-            $(this.el).append('<tfoot><tr><td colspan="2">Summary</td><td class="proteins_sum">0</td><td class="carbohydrates_sum">0</td><td class="fats_sum">0</td><td class="nutritive_value_sum">0</td></tr></tfoot>')
+            $(this.el).append('<tfoot><tr><td colspan="2">Summary</td><td class="proteins_sum"></td><td class="carbohydrates_sum"></td><td class="fats_sum"></td><td class="nutritive_value_sum"></td></tr></tfoot>');
+
+            var self = this;
+            _(this.model.models).each(function (product) {
+                self.appendProduct(product);
+            });
+
+            this.updateSum();
+
             return this;
         },
 
@@ -149,15 +184,15 @@ $(function () {
             this.model.bind('change', this.render);
             this.model.bind('remove', this.unrender);
             this.model.bind('addProduct', this.addProduct);
+            this.productListView = new ProductListView({
+                model: this.model.get('productList')
+            });
         },
 
         render: function () {
-            $(this.el).append('<div class="panel-heading"><div class="row"><div class="col-md-4">' + this.model.get('name') + '</div><div class="row"><div class="col-md-4"><button type="button" class="btn btn-success add_product">Add Product</button></div><div class="col-md-3"><button type="button" class="btn btn-danger delete">Remove Meal</button></div></div></div>');
-            $(this.el).append('<div class="panel-body"></div>');
-            var productListView = new ProductListView({
-                model: this.model.get('productList')
-            });
-            $('div.panel-body', this.el).append(productListView.render().el);
+            $(this.el).html('<div class="panel-heading"><div class="row"><div class="col-md-4">' + this.model.get('name') + '</div><div class="row"><div class="col-md-4"><button type="button" class="btn btn-success add_product">Add Product</button></div><div class="col-md-3"><button type="button" class="btn btn-danger delete">Remove Meal</button></div></div></div><div class="panel-body"></div>');
+
+            $('div.panel-body', this.el).append(this.productListView.render().el);
             return this;
         },
 
@@ -194,24 +229,29 @@ $(function () {
         },
 
         initialize: function () {
-            _.bindAll(this, 'render', 'addMeal', 'appendMeal');
+            _.bindAll(this, 'render', 'addMeal', 'appendMeal', 'updateSummaries');
             this.mealList = new MealList();
             this.mealList.bind('add', this.appendMeal);
-
+            this.mealList.bind('change', this.updateSummaries);
             this.counter = 0;
             this.render();
         },
 
         render: function () {
-            $(this.el).append('<div class="panel-group meal_list"><h2>Meals</h2><button id="add_meal" type="button" class="btn btn-success">Add Meal</button></div>');
+            $(this.el).html('<div class="panel panel-default meals_panel"></div>');
+            $('div.meals_panel', this.el).append('<div class="panel-heading"><h2>Meals</h2><button id="add_meal" type="button" class="btn btn-success">Add Meal</button></div>');
+            $('div.meals_panel', this.el).append('<div class="panel-body"><div class="panel-group meal_list"></div></div>');
+            $('div.meals_panel', this.el).append('<div class="panel-footer meals_summary"><table></div>');
+            $('div.meals_summary', this.el).append('<table class="table"><caption>Summary</caption><thead><tr><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></tr></thead><tbody><tr><td class="proteins_sum"></td><td class="carbohydrates_sum"></td><td class="fats_sum"></td><td class="nutritive_value_sum"></td></tr></tbody></table>');
+
+            this.updateSummaries();
         },
 
         addMeal: function () {
             this.counter++;
             var meal = new Meal();
             meal.set({
-                name: 'Meal ' + this.counter,
-                productList: new ProductList()
+                name: 'Meal ' + this.counter
             });
             this.mealList.add(meal);
         },
@@ -221,6 +261,13 @@ $(function () {
                 model: meal
             });
             $('div.meal_list', this.el).append(mealView.render().el);
+        },
+
+        updateSummaries: function () {
+            $("td.proteins_sum", "div.meals_summary", this.el).text(this.mealList.summaryValue("proteins"));
+            $("td.carbohydrates_sum", "div.meals_summary", this.el).text(this.mealList.summaryValue("carbohydrates"));
+            $("td.fats_sum", "div.meals_summary", this.el).text(this.mealList.summaryValue("fats"));
+            $("td.nutritive_value_sum", "div.meals_summary", this.el).text(this.mealList.summaryValue("nutritive_value"));
         }
     });
     var mealListView = new MealListView();
