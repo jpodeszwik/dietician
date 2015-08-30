@@ -41,12 +41,23 @@ var Product = Backbone.Model.extend({
         weight: 0
     },
 
-    effective_value: function (name) {
+    effectiveValue: function (name) {
         return this.get(name) * this.get('weight') / 100;
     }
 });
 
-var ProductList = Backbone.Collection.extend({model: Product});
+var ProductList = Backbone.Collection.extend({
+    model: Product,
+
+    summaryValue: function (name) {
+        var mapped = _.map(this.models, function (product) {
+            return product.effectiveValue(name)
+        });
+        return _.reduce(mapped, function (memo, num) {
+            return memo + num;
+        });
+    }
+});
 
 var Meal = Backbone.Model.extend({
     defaults: {
@@ -67,13 +78,13 @@ $(function () {
         },
 
         initialize: function () {
-            _.bindAll(this, 'render', 'inputChanged', 'effective_value');
+            _.bindAll(this, 'render', 'inputChanged', 'effectiveValue');
             this.model.bind('change', this.render, this);
         },
 
         render: function () {
             $('td', this.el).remove();
-            $(this.el).append('<td><input type="text" class="form-control" value="' + this.model.get('weight') + '"></input></td><td>' + this.model.get('product_name') + '</td><td>' + this.effective_value('proteins') + '</td><td>' + this.effective_value('carbohydrates') + '</td><td>' + this.effective_value('fats') + '</td><td>' + this.effective_value('nutritive_value') + '</td>');
+            $(this.el).append('<td><input type="text" class="form-control" value="' + this.model.get('weight') + '"></input></td><td>' + this.model.get('product_name') + '</td><td>' + this.effectiveValue('proteins') + '</td><td>' + this.effectiveValue('carbohydrates') + '</td><td>' + this.effectiveValue('fats') + '</td><td>' + this.effectiveValue('nutritive_value') + '</td>');
             return this;
         },
 
@@ -82,8 +93,8 @@ $(function () {
             this.model.set('weight', value);
         },
 
-        effective_value: function (param_name) {
-            return this.model.effective_value(param_name).toFixed(2);
+        effectiveValue: function (param_name) {
+            return this.model.effectiveValue(param_name).toFixed(2);
         }
     });
 
@@ -92,13 +103,15 @@ $(function () {
         className: 'table',
 
         initialize: function () {
-            _.bindAll(this, 'render', 'appendProduct');
+            _.bindAll(this, 'render', 'appendProduct', 'summaryValue', 'updateSum');
             this.model.bind('add', this.appendProduct);
+            this.model.bind('change', this.updateSum, this);
         },
 
         render: function () {
             $(this.el).append('<thead><th>Product weight</th><th>Product Name</th><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></thead>');
             $(this.el).append('<tbody></tbody>');
+            $(this.el).append('<tfoot><tr><td colspan="2">Summary</td><td class="proteins_sum">0</td><td class="carbohydrates_sum">0</td><td class="fats_sum">0</td><td class="nutritive_value_sum">0</td></tr></tfoot>')
             return this;
         },
 
@@ -107,6 +120,17 @@ $(function () {
                 model: product
             });
             $('tbody', this.el).append(productView.render().el);
+        },
+
+        updateSum: function () {
+            $("td.proteins_sum", this.el).text(this.summaryValue("proteins"));
+            $("td.carbohydrates_sum", this.el).text(this.summaryValue("carbohydrates"));
+            $("td.fats_sum", this.el).text(this.summaryValue("fats"));
+            $("td.nutritive_value_sum", this.el).text(this.summaryValue("nutritive_value"));
+        },
+
+        summaryValue: function (param_name) {
+            return this.model.summaryValue(param_name).toFixed(2);
         }
     });
 
