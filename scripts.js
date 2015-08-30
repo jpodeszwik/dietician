@@ -229,10 +229,11 @@ $(function () {
         },
 
         initialize: function () {
-            _.bindAll(this, 'render', 'addMeal', 'appendMeal', 'updateSummaries');
+            _.bindAll(this, 'render', 'addMeal', 'appendMeal', 'updateSummaries', 'summaryValue');
             this.mealList = new MealList();
             this.mealList.bind('add', this.appendMeal);
             this.mealList.bind('change', this.updateSummaries);
+            this.mealList.bind('remove', this.updateSummaries);
             this.counter = 0;
             this.render();
         },
@@ -264,10 +265,14 @@ $(function () {
         },
 
         updateSummaries: function () {
-            $("td.proteins_sum", "div.meals_summary", this.el).text(this.mealList.summaryValue("proteins"));
-            $("td.carbohydrates_sum", "div.meals_summary", this.el).text(this.mealList.summaryValue("carbohydrates"));
-            $("td.fats_sum", "div.meals_summary", this.el).text(this.mealList.summaryValue("fats"));
-            $("td.nutritive_value_sum", "div.meals_summary", this.el).text(this.mealList.summaryValue("nutritive_value"));
+            $("td.proteins_sum", "div.meals_summary", this.el).text(this.summaryValue("proteins"));
+            $("td.carbohydrates_sum", "div.meals_summary", this.el).text(this.summaryValue("carbohydrates"));
+            $("td.fats_sum", "div.meals_summary", this.el).text(this.summaryValue("fats"));
+            $("td.nutritive_value_sum", "div.meals_summary", this.el).text(this.summaryValue("nutritive_value"));
+        },
+
+        summaryValue: function (name) {
+            return this.mealList.summaryValue(name).toFixed(2);
         }
     });
     var mealListView = new MealListView();
