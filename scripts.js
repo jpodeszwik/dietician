@@ -205,7 +205,8 @@ $(function () {
         },
 
         render: function () {
-            $(this.el).html('<div class="panel-heading"><div class="row"><div class="col-md-4">' + this.model.get('name') + '</div><div class="row"><div class="col-md-4"><button type="button" class="btn btn-success add_product">Add Product</button></div><div class="col-md-3"><button type="button" class="btn btn-danger delete_meal">Remove Meal</button></div></div></div><div class="panel-body"></div>');
+            $(this.el).html('<div class="panel-heading"><div class="row"><div class="col-md-4"><h4>' + this.model.get('name') + '</h4></div><<div class="col-md-6"><button type="button" class="btn btn-success add_product">Add Product</button></div><div class="col-md-1"><button type="button" class="btn btn-danger delete_meal">Remove Meal</button></div></div></div>');
+            $(this.el).append('<div class="panel-body"></div>');
 
             $('div.panel-body', this.el).append(this.productListView.render().el);
             return this;
