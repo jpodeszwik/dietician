@@ -278,7 +278,7 @@ $(function () {
     var mealListView = new MealListView();
 
     var xmlhttp = new XMLHttpRequest();
-    var url = "http://192.168.0.14:9201/products/_search?size=1000";
+    var url = "http://zbiki.ddns.net/products/_search?size=1000";
 
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
