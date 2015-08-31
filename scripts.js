@@ -292,33 +292,24 @@ $(function () {
     });
     var mealListView = new MealListView();
 
-    var xmlhttp = new XMLHttpRequest();
-    var url = "http://zbiki.ddns.net/products/_search?size=1000";
+    $.get('http://zbiki.ddns.net/products/_search?size=1000', function onSuccess(data) {
+        var hits = data["hits"]["hits"];
 
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            var myArr = JSON.parse(xmlhttp.responseText);
-            var hits = myArr["hits"]["hits"];
+        hits.forEach(function (hit) {
+            var product = hit["_source"];
+            products.addProduct(product);
+        });
 
-            hits.forEach(function (hit) {
-                var product = hit["_source"];
-                products.addProduct(product);
-            });
+        products.getProductNames().forEach(function (productName) {
+            var product_selector = document.getElementById("product_selector");
+            var option = document.createElement("option");
+            option.text = productName;
+            product_selector.add(option);
+        });
 
-            products.getProductNames().forEach(function (productName) {
-                var product_selector = document.getElementById("product_selector");
-                var option = document.createElement("option");
-                option.text = productName;
-                product_selector.add(option);
-            });
+        $('.selectpicker').change(productSelectionChanged);
 
-            $('.selectpicker').change(productSelectionChanged);
-
-            $('.selectpicker').selectpicker('refresh');
-            productSelectionChanged();
-        }
-    };
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
-
+        $('.selectpicker').selectpicker('refresh');
+        productSelectionChanged();
+    });
 });
