@@ -71,6 +71,10 @@ var Meal = Backbone.Model.extend({
         this.listenTo(productList, 'change', function () {
             this.trigger('change', this);
         });
+
+        this.listenTo(productList, 'remove', function () {
+            this.trigger('change', this);
+        });
     },
 
     summaryValue: function (name) {
@@ -102,17 +106,27 @@ $(function () {
         tagName: 'tr',
 
         events: {
-            "change input": "inputChanged"
+            "change input": "inputChanged",
+            'click button.delete_product': 'remove'
         },
 
         initialize: function () {
-            _.bindAll(this, 'render', 'inputChanged', 'effectiveValue');
-            this.model.bind('change', this.render, this);
+            _.bindAll(this, 'render', 'inputChanged', 'effectiveValue', 'unrender', 'remove');
+            this.model.bind('change', this.render);
+            this.model.bind('remove', this.unrender);
         },
 
         render: function () {
-            $(this.el).html('<td><input type="text" class="form-control" value="' + this.model.get('weight') + '"></input></td><td>' + this.model.get('product_name') + '</td><td>' + this.effectiveValue('proteins') + '</td><td>' + this.effectiveValue('carbohydrates') + '</td><td>' + this.effectiveValue('fats') + '</td><td>' + this.effectiveValue('nutritive_value') + '</td>');
+            $(this.el).html('<td><input type="text" class="form-control" value="' + this.model.get('weight') + '"></input></td><td>' + this.model.get('product_name') + '</td><td>' + this.effectiveValue('proteins') + '</td><td>' + this.effectiveValue('carbohydrates') + '</td><td>' + this.effectiveValue('fats') + '</td><td>' + this.effectiveValue('nutritive_value') + '</td><td><button type="button" class="btn btn-danger delete_product">Remove Product</button></td>');
             return this;
+        },
+
+        unrender: function () {
+            $(this.el).remove();
+        },
+
+        remove: function () {
+            this.model.destroy();
         },
 
         inputChanged: function (evt) {
@@ -132,7 +146,8 @@ $(function () {
         initialize: function () {
             _.bindAll(this, 'render', 'appendProduct', 'summaryValue', 'updateSum');
             this.model.bind('add', this.appendProduct);
-            this.model.bind('change', this.updateSum, this);
+            this.model.bind('change', this.updateSum);
+            this.model.bind('remove', this.updateSum);
         },
 
         render: function () {
@@ -174,7 +189,7 @@ $(function () {
         className: 'panel panel-default',
 
         events: {
-            'click button.delete': 'remove',
+            'click button.delete_meal': 'remove',
             'click button.add_product': 'addProduct'
         },
 
@@ -190,7 +205,7 @@ $(function () {
         },
 
         render: function () {
-            $(this.el).html('<div class="panel-heading"><div class="row"><div class="col-md-4">' + this.model.get('name') + '</div><div class="row"><div class="col-md-4"><button type="button" class="btn btn-success add_product">Add Product</button></div><div class="col-md-3"><button type="button" class="btn btn-danger delete">Remove Meal</button></div></div></div><div class="panel-body"></div>');
+            $(this.el).html('<div class="panel-heading"><div class="row"><div class="col-md-4">' + this.model.get('name') + '</div><div class="row"><div class="col-md-4"><button type="button" class="btn btn-success add_product">Add Product</button></div><div class="col-md-3"><button type="button" class="btn btn-danger delete_meal">Remove Meal</button></div></div></div><div class="panel-body"></div>');
 
             $('div.panel-body', this.el).append(this.productListView.render().el);
             return this;
