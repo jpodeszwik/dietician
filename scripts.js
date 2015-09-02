@@ -71,11 +71,6 @@ var Meal = Backbone.Model.extend({
 var MealList = Backbone.Collection.extend({
     model: Meal,
 
-    initialize: function () {
-        var productList = new ProductList();
-        this.set('productList', productList);
-    },
-
     summaryValue: function (name) {
         var mapped = _.map(this.models, function (meal) {
             return meal.summaryValue(name);
@@ -101,8 +96,6 @@ $(function () {
             this.model.bind('change', this.render);
             this.model.bind('remove', this.unrender);
         },
-        //var selectedText = $('.selectpicker').find("option:selected").text();
-        //var selectedProduct = products.getProduct(selectedText);
 
         render: function () {
             $(this.el).html('<td><select class="selectpicker"></select></td><td><input type="text" class="form-control product_weight" value="' + this.model.get('weight') + '"></input></td><td>' + this.effectiveValue('proteins') + '</td><td>' + this.effectiveValue('carbohydrates') + '</td><td>' + this.effectiveValue('fats') + '</td><td>' + this.effectiveValue('nutritive_value') + '</td><td><button type="button" class="btn btn-danger delete_product">Remove Product</button></td>');
@@ -298,6 +291,7 @@ $(function () {
             this.mealList.bind('change', this.updateSummaries);
             this.mealList.bind('remove', this.updateSummaries);
             this.counter = 0;
+            this.addMeal();
             this.render();
         },
 
@@ -307,6 +301,11 @@ $(function () {
             $('div.meals_panel', this.el).append('<div class="panel-body"><div class="panel-group meal_list"></div></div>');
             $('div.meals_panel', this.el).append('<div class="panel-footer meals_summary"><table></div>');
             $('div.meals_summary', this.el).append('<table class="table"><caption>Summary</caption><thead><tr><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></tr></thead><tbody><tr><td class="proteins_sum"></td><td class="carbohydrates_sum"></td><td class="fats_sum"></td><td class="nutritive_value_sum"></td></tr></tbody></table>');
+
+            var self = this;
+            _(this.mealList.models).each(function (meal) {
+                self.appendMeal(meal);
+            });
 
             this.updateSummaries();
         },
