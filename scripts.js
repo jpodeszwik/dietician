@@ -12,24 +12,10 @@ Products.prototype = {
 
     getProduct: function (productName) {
         return this.products[productName];
-    },
-
-    getProductNames: function () {
-        return Object.keys(this.products);
     }
 };
 
 var products = new Products();
-
-function productSelectionChanged() {
-    var selectedText = $('.selectpicker').find("option:selected").text();
-    var selectedProduct = products.getProduct(selectedText);
-    $('#product_name_value').text(selectedProduct['product_name']);
-    $('#proteins_value').text(selectedProduct['proteins']);
-    $('#carbohydrates_value').text(selectedProduct['carbohydrates']);
-    $('#fats_value').text(selectedProduct['fats']);
-    $('#nutritive_value_value').text(selectedProduct['nutritive_value']);
-}
 
 var Product = Backbone.Model.extend({
     defaults: {
@@ -106,19 +92,91 @@ $(function () {
         tagName: 'tr',
 
         events: {
-            "change input": "inputChanged",
+            "change input.product_weight": "inputChanged",
             'click button.delete_product': 'remove'
         },
 
         initialize: function () {
-            _.bindAll(this, 'render', 'inputChanged', 'effectiveValue', 'unrender', 'remove');
+            _.bindAll(this, 'render', 'productChanged', 'inputChanged', 'effectiveValue', 'unrender', 'remove');
             this.model.bind('change', this.render);
             this.model.bind('remove', this.unrender);
         },
+        //var selectedText = $('.selectpicker').find("option:selected").text();
+        //var selectedProduct = products.getProduct(selectedText);
 
         render: function () {
-            $(this.el).html('<td><input type="text" class="form-control" value="' + this.model.get('weight') + '"></input></td><td>' + this.model.get('product_name') + '</td><td>' + this.effectiveValue('proteins') + '</td><td>' + this.effectiveValue('carbohydrates') + '</td><td>' + this.effectiveValue('fats') + '</td><td>' + this.effectiveValue('nutritive_value') + '</td><td><button type="button" class="btn btn-danger delete_product">Remove Product</button></td>');
+            $(this.el).html('<td><select class="selectpicker"></select></td><td><input type="text" class="form-control product_weight" value="' + this.model.get('weight') + '"></input></td><td>' + this.effectiveValue('proteins') + '</td><td>' + this.effectiveValue('carbohydrates') + '</td><td>' + this.effectiveValue('fats') + '</td><td>' + this.effectiveValue('nutritive_value') + '</td><td><button type="button" class="btn btn-danger delete_product">Remove Product</button></td>');
+
+            var title;
+            if (this.model.get('product_name') != '') {
+                title = this.model.get('product_name');
+            } else {
+                title = 'Search for product...';
+            }
+
+            $('.selectpicker', this.el)
+                .selectpicker({
+                    liveSearch: true
+                })
+                .ajaxSelectPicker({
+                    ajax: {
+                        url: 'http://zbiki.ddns.net/products/_search',
+                        dataType: 'json',
+                        data: function () {
+                            return {
+                                "query": {
+                                    "match": {
+                                        "product_name": "{{{q}}}"
+                                    }
+                                }
+                            };
+                        }
+                    },
+                    locale: {
+                        emptyTitle: title
+                    },
+                    preprocessData: function (data) {
+
+                        var ctr = 0;
+                        var hits = data["hits"]["hits"];
+
+                        var foundProducts = [];
+                        hits.forEach(function (hit) {
+                            ctr++;
+                            var productName = hit["_source"]["product_name"];
+                            foundProducts.push(
+                                {
+                                    'value': ctr,
+                                    'text': productName,
+                                    'disable': false
+                                }
+                            );
+                        });
+
+                        return foundProducts;
+                    },
+                    preserveSelected: false
+                });
+
+            $('.selectpicker', this.el).change(this.productChanged);
+            $('.selectpicker.filter-option', this.el).text(this.model.get('product_name'));
+
             return this;
+        },
+
+        productChanged: function () {
+            var selectedText = $('.selectpicker', this.el).find("option:selected").text();
+            var selectedProduct = products.getProduct(selectedText);
+            if (selectedProduct != null) {
+                this.model.set('product_name', selectedProduct['product_name']);
+                this.model.set('proteins', selectedProduct['proteins']);
+                this.model.set('carbohydrates', selectedProduct['carbohydrates']);
+                this.model.set('fats', selectedProduct['fats']);
+                this.model.set('nutritive_value', selectedProduct['nutritive_value']);
+                if (this.model.get('weight') == 0) {
+                    this.model.set('weight', 100);
+                }
+            }
         },
 
         unrender: function () {
@@ -151,7 +209,7 @@ $(function () {
         },
 
         render: function () {
-            $(this.el).html('<thead><th>Product weight</th><th>Product Name</th><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></thead>');
+            $(this.el).html('<thead><th>Product Name</th><th>Product weight</th><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></thead>');
             $(this.el).append('<tbody></tbody>');
             $(this.el).append('<tfoot><tr><td colspan="2">Summary</td><td class="proteins_sum"></td><td class="carbohydrates_sum"></td><td class="fats_sum"></td><td class="nutritive_value_sum"></td></tr></tfoot>');
 
@@ -221,17 +279,7 @@ $(function () {
         },
 
         addProduct: function () {
-            var selectedText = $('.selectpicker').find("option:selected").text();
-            var selectedProduct = products.getProduct(selectedText);
-            var product = new Product();
-            product.set({
-                product_name: selectedProduct["product_name"],
-                proteins: selectedProduct["proteins"],
-                carbohydrates: selectedProduct["carbohydrates"],
-                fats: selectedProduct["fats"],
-                nutritive_value: selectedProduct["nutritive_value"]
-            });
-            this.model.get('productList').add(product);
+            this.model.get('productList').add(new Product());
         }
 
     });
@@ -301,50 +349,4 @@ $(function () {
             products.addProduct(product);
         });
     });
-
-    $('.selectpicker')
-        .selectpicker({
-            liveSearch: true
-        })
-        .ajaxSelectPicker({
-            ajax: {
-                url: 'http://zbiki.ddns.net/products/_search',
-                dataType: 'json',
-                data: function () {
-                    var query = {
-                        "query": {
-                            "match": {
-                                "product_name": "{{{q}}}"
-                            }
-                        }
-                    };
-                    return query;
-                }
-            },
-            locale: {
-                emptyTitle: 'Search for product...'
-            },
-            preprocessData: function (data) {
-
-                var ctr = 0;
-                var hits = data["hits"]["hits"];
-
-                var foundProducts = [];
-                hits.forEach(function (hit) {
-                    ctr++;
-                    var productName = hit["_source"]["product_name"];
-                    foundProducts.push(
-                        {
-                            'value': ctr,
-                            'text': productName,
-                            'disable': false
-                        }
-                    );
-                });
-
-                return foundProducts;
-            },
-            preserveSelected: false
-        });
-    $('.selectpicker').change(productSelectionChanged);
 });
