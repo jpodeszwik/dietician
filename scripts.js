@@ -159,7 +159,6 @@ $(function () {
                 });
 
             $('.selectpicker', this.el).change(this.productChanged);
-            $('.selectpicker.filter-option', this.el).text(this.model.get('product_name'));
 
             return this;
         },
