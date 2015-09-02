@@ -300,17 +300,51 @@ $(function () {
             var product = hit["_source"];
             products.addProduct(product);
         });
-
-        products.getProductNames().forEach(function (productName) {
-            var product_selector = document.getElementById("product_selector");
-            var option = document.createElement("option");
-            option.text = productName;
-            product_selector.add(option);
-        });
-
-        $('.selectpicker').change(productSelectionChanged);
-
-        $('.selectpicker').selectpicker('refresh');
-        productSelectionChanged();
     });
+
+    $('.selectpicker')
+        .selectpicker({
+            liveSearch: true
+        })
+        .ajaxSelectPicker({
+            ajax: {
+                url: 'http://zbiki.ddns.net/products/_search',
+                dataType: 'json',
+                data: function () {
+                    var query = {
+                        "query": {
+                            "match": {
+                                "product_name": "{{{q}}}"
+                            }
+                        }
+                    };
+                    return query;
+                }
+            },
+            locale: {
+                emptyTitle: 'Search for product...'
+            },
+            preprocessData: function (data) {
+
+                var ctr = 0;
+                var hits = data["hits"]["hits"];
+
+                var foundProducts = [];
+                hits.forEach(function (hit) {
+                    ctr++;
+                    var productName = hit["_source"]["product_name"];
+                    foundProducts.push(
+                        {
+                            'value': ctr,
+                            'text': productName,
+                            'disable': false
+                        }
+                    );
+                });
+
+                return foundProducts;
+            },
+            preserveSelected: false
+        });
+    $('.selectpicker').change(productSelectionChanged);
 });
