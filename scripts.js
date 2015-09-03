@@ -48,12 +48,16 @@ var ProductList = Backbone.Collection.extend({
 var Meal = Backbone.Model.extend({
     defaults: {
         name: 'MealX',
-        productList: new ProductList()
+        productList: null
     },
 
-    initialize: function () {
-        var productList = new ProductList();
-        this.set('productList', productList);
+    initialize: function ()  {
+        if(this.get('productList') == null) {
+            this.set('productList', new ProductList());
+        }
+
+        var productList = this.get('productList');
+
         this.listenTo(productList, 'change', function () {
             this.trigger('change', this);
         });
@@ -281,12 +285,13 @@ $(function () {
         el: $('#meals_container'),
 
         events: {
-            'click button#add_meal': 'addMeal'
+            'click button#add_meal': 'addMeal',
+            'click button#save_diet': 'saveDiet'
         },
 
-        initialize: function () {
-            _.bindAll(this, 'render', 'addMeal', 'appendMeal', 'updateSummaries', 'summaryValue');
-            this.mealList = new MealList();
+        initialize: function (mealList) {
+            _.bindAll(this, 'render', 'addMeal', 'appendMeal', 'updateSummaries', 'summaryValue', 'saveDiet');
+            this.mealList = mealList;
             this.mealList.bind('add', this.appendMeal);
             this.mealList.bind('change', this.updateSummaries);
             this.mealList.bind('remove', this.updateSummaries);
@@ -297,7 +302,7 @@ $(function () {
 
         render: function () {
             $(this.el).html('<div class="panel panel-default meals_panel"></div>');
-            $('div.meals_panel', this.el).append('<div class="panel-heading"><h2>Meals</h2><button id="add_meal" type="button" class="btn btn-success">Add Meal</button></div>');
+            $('div.meals_panel', this.el).append('<div class="panel-heading"><div class="col-md-4"><h4>Meals</h4></div><div class="row"><<div class="col-md-6"><button id="add_meal" type="button" class="btn btn-success">Add Meal</button></div><div class="col-md-1"><button id="save_diet" type="button" class="btn btn-info">Save diet</button></div></div></div>');
             $('div.meals_panel', this.el).append('<div class="panel-body"><div class="panel-group meal_list"></div></div>');
             $('div.meals_panel', this.el).append('<div class="panel-footer meals_summary"><table></div>');
             $('div.meals_summary', this.el).append('<table class="table"><caption>Summary</caption><thead><tr><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></tr></thead><tbody><tr><td class="proteins_sum"></td><td class="carbohydrates_sum"></td><td class="fats_sum"></td><td class="nutritive_value_sum"></td></tr></tbody></table>');
@@ -335,9 +340,38 @@ $(function () {
 
         summaryValue: function (name) {
             return this.mealList.summaryValue(name).toFixed(2);
+        },
+
+        saveDiet: function () {
+            var document = {'mealList': this.mealList.toJSON()};
+            $.post('http://zbiki.ddns.net/diets/diet', JSON.stringify(document), function onSuccess(data) {
+                var dietUrl = url('hostname') + ':' + url('port') + url('path') + '?id=' + data['_id'];
+                //TODO: improve this
+                alert(dietUrl);
+            });
         }
     });
-    var mealListView = new MealListView();
+
+    var dietId = url('?id');
+    if (dietId != null) {
+        $.get('http://zbiki.ddns.net/diets/diet/' + dietId + '/_source', function onSuccess(data) {
+            var mealList = data['mealList'];
+            var mealListModel = new MealList();
+
+            //somehow MealList model didn't want to load the whole json
+            mealList.forEach(function (meal) {
+                var mealModel = new Meal({
+                    name: meal['name'],
+                    productList: new ProductList(meal['productList'])
+                });
+                mealListModel.add(mealModel);
+            });
+
+            var mealListView = new MealListView(mealListModel);
+        });
+    } else {
+        var mealListView = new MealListView(new MealList());
+    }
 
     $.get('http://zbiki.ddns.net/products/_search?size=1000', function onSuccess(data) {
         var hits = data["hits"]["hits"];
