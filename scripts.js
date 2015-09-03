@@ -286,7 +286,7 @@ $(function () {
         },
 
         initialize: function (mealList) {
-            _.bindAll(this, 'render', 'addMeal', 'appendMeal', 'updateSummaries', 'summaryValue', 'saveDiet');
+            _.bindAll(this, 'render', 'addMeal', 'appendMeal', 'updateSummaries', 'summaryValue', 'saveDiet', 'displayChart');
             this.mealList = mealList;
             this.mealList.bind('add', this.appendMeal);
             this.mealList.bind('change', this.updateSummaries);
@@ -300,8 +300,9 @@ $(function () {
             $(this.el).html('<div class="panel panel-default meals_panel"></div>');
             $('div.meals_panel', this.el).append('<div class="panel-heading"><div class="col-md-4"><h4>Meals</h4></div><div class="row"><<div class="col-md-6"><button id="add_meal" type="button" class="btn btn-success">Add Meal</button></div><div class="col-md-1"><button id="save_diet" type="button" class="btn btn-info">Save diet</button></div></div></div>');
             $('div.meals_panel', this.el).append('<div class="panel-body"><div class="panel-group meal_list"></div></div>');
-            $('div.meals_panel', this.el).append('<div class="panel-footer meals_summary"><table></div>');
+            $('div.meals_panel', this.el).append('<div class="panel-footer meals_summary"></div>');
             $('div.meals_summary', this.el).append('<table class="table"><caption>Summary</caption><thead><tr><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></tr></thead><tbody><tr><td class="proteins_sum"></td><td class="carbohydrates_sum"></td><td class="fats_sum"></td><td class="nutritive_value_sum"></td></tr></tbody></table>');
+            $('div.meals_summary', this.el).append('<canvas id="myChart" height="400"></canvas>');
 
             var self = this;
             _(this.mealList.models).each(function (meal) {
@@ -332,6 +333,8 @@ $(function () {
             $("td.carbohydrates_sum", "div.meals_summary", this.el).text(this.summaryValue("carbohydrates"));
             $("td.fats_sum", "div.meals_summary", this.el).text(this.summaryValue("fats"));
             $("td.nutritive_value_sum", "div.meals_summary", this.el).text(this.summaryValue("nutritive_value"));
+
+            this.displayChart();
         },
 
         summaryValue: function (name) {
@@ -345,6 +348,29 @@ $(function () {
                 //TODO: improve this
                 alert(dietUrl);
             });
+        },
+
+        displayChart: function() {
+            var proteinsCalories = this.summaryValue('proteins') * 4;
+            var carbohydratesCalories = this.summaryValue('carbohydrates') * 4;
+            var fatsCalories = this.summaryValue('fats') * 9;
+
+            var chartData = {
+                labels: ["Proteins", "Carbohydrates", "Fats"],
+                datasets: [
+                    {
+                        label: "Calories from sources",
+                        fillColor: "rgba(151,187,205,0.5)",
+                        strokeColor: "rgba(151,187,205,0.8)",
+                        highlightFill: "rgba(151,187,205,0.75)",
+                        highlightStroke: "rgba(151,187,205,1)",
+                        data: [proteinsCalories, carbohydratesCalories, fatsCalories]
+                    }
+                ]
+            };
+
+            var ctx = $("#myChart").get(0).getContext("2d");
+            var myBarChart = new Chart(ctx).Bar(chartData);
         }
     });
 
