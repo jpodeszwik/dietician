@@ -164,11 +164,7 @@ $(function () {
             var selectedText = $('.selectpicker', this.el).find("option:selected").text();
             var selectedProduct = products.getProduct(selectedText);
             if (selectedProduct != null) {
-                this.model.set('product_name', selectedProduct['product_name']);
-                this.model.set('proteins', selectedProduct['proteins']);
-                this.model.set('carbohydrates', selectedProduct['carbohydrates']);
-                this.model.set('fats', selectedProduct['fats']);
-                this.model.set('nutritive_value', selectedProduct['nutritive_value']);
+                this.model.set(selectedProduct);
                 if (this.model.get('weight') == 0) {
                     this.model.set('weight', 100);
                 }
