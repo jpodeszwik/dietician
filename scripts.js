@@ -201,9 +201,10 @@ $(function () {
         },
 
         render: function () {
-            $(this.el).html('<thead><th>Product Name</th><th>Product weight</th><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></thead>');
+            $(this.el).html('<thead><th>Product Name</th><th>Product weight</th><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th><th></th></thead>');
             $(this.el).append('<tbody></tbody>');
-            $(this.el).append('<tfoot><tr><td colspan="2">Summary</td><td class="proteins_sum"></td><td class="carbohydrates_sum"></td><td class="fats_sum"></td><td class="nutritive_value_sum"></td></tr></tfoot>');
+            $(this.el).append('<tfoot><tr><td colspan="7"><button type="button" class="btn btn-success add_product">Add Product</button></td></tr>');
+            $(this.el).append('<tr><td colspan="2">Summary</td><td class="proteins_sum"></td><td class="carbohydrates_sum"></td><td class="fats_sum"></td><td class="nutritive_value_sum"></td></tr></tfoot>');
 
             var self = this;
             _(this.model.models).each(function (product) {
@@ -255,7 +256,7 @@ $(function () {
         },
 
         render: function () {
-            $(this.el).html('<div class="panel-heading"><div class="row"><div class="col-md-4"><h4>' + this.model.get('name') + '</h4></div><<div class="col-md-6"><button type="button" class="btn btn-success add_product">Add Product</button></div><div class="col-md-1"><button type="button" class="btn btn-danger delete_meal">Remove Meal</button></div></div></div>');
+            $(this.el).html('<div class="panel-heading"><div class="row"><div class="col-md-10"><h4>' + this.model.get('name') + '</h4></div><div class="col-md-2"><button type="button" class="btn btn-danger delete_meal">Remove Meal</button></div></div></div>');
             $(this.el).append('<div class="panel-body"></div>');
 
             $('div.panel-body', this.el).append(this.productListView.render().el);
@@ -298,8 +299,8 @@ $(function () {
 
         render: function () {
             $(this.el).html('<div class="panel panel-default meals_panel"></div>');
-            $('div.meals_panel', this.el).append('<div class="panel-heading"><div class="col-md-4"><h4>Meals</h4></div><div class="row"><<div class="col-md-6"><button id="add_meal" type="button" class="btn btn-success">Add Meal</button></div><div class="col-md-1"><button id="save_diet" type="button" class="btn btn-info">Save diet</button></div></div></div>');
-            $('div.meals_panel', this.el).append('<div class="panel-body"><div class="panel-group meal_list"></div></div>');
+            $('div.meals_panel', this.el).append('<div class="panel-heading"><div class="row"><div class="col-md-10"><h4>Meals</h4></div><div class="col-md-2"><button id="save_diet" type="button" class="btn btn-info">Save diet</button></div></div></div>');
+            $('div.meals_panel', this.el).append('<div class="panel-body"><div class="panel-group meal_list"></div><button id="add_meal" type="button" class="btn btn-success">Add Meal</button>');
             $('div.meals_panel', this.el).append('<div class="panel-footer meals_summary"></div>');
             $('div.meals_summary', this.el).append('<table class="table"><caption>Summary</caption><thead><tr><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th></tr></thead><tbody><tr><td class="proteins_sum"></td><td class="carbohydrates_sum"></td><td class="fats_sum"></td><td class="nutritive_value_sum"></td></tr></tbody></table>');
             $('div.meals_summary', this.el).append('<canvas id="myChart" height="400"></canvas>');
