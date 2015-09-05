@@ -6,6 +6,13 @@ $(function () {
     $.fn.editable.defaults.showbuttons = false;
     $.fn.editable.defaults.onblur = 'submit';
 
+    Backbone.Marionette.Renderer.render = function (template, data) {
+        if (_.isFunction(template)) {
+            return template(data);
+        }
+        return nunjucks.render(template, data);
+    };
+
     var dietId = url('?id');
     if (dietId != null) {
         $.get('http://zbiki.ddns.net/diets/diet/' + dietId + '/_source', function onSuccess(data) {
