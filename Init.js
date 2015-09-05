@@ -31,6 +31,8 @@ $(function () {
         var mealListView = new MealListView(mealList);
     }
 
+    var caloricIntakeView = new CaloricIntakeView();
+
     $.get('http://zbiki.ddns.net/products/_search?size=1000', function onSuccess(data) {
         var hits = data["hits"]["hits"];
 
@@ -39,4 +41,5 @@ $(function () {
             products.addProduct(product);
         });
     });
+
 });

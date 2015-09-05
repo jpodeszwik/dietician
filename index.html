@@ -23,6 +23,7 @@
 
     <link rel="stylesheet" href="style.css">
 
+    <script src="caloric-intake/CaloricIntakeView.js"></script>
     <script src="product/ProductModel.js"></script>
     <script src="product/ProductView.js"></script>
     <script src="meal/MealModel.js"></script>
@@ -30,6 +31,17 @@
     <script src="Init.js"></script>
 </head>
 <body>
-<div id="meals_container" class="container"></div>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="javascript:void(0)">Dietician</a>
+        </div>
+        <div id="caloric-intake-calculator"></div>
+    </div>
+</nav>
+<div class="container jumbotron">
+    <div id="meals_container" class="container"></div>
+</div>
+
 </body>
 </html>
