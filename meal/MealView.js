@@ -20,7 +20,7 @@ var MealView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).html(nunjucks.render('MealView.html', { name: this.model.get('name') }));
+        $(this.el).html(nunjucks.render('meal/MealView.html', { name: this.model.get('name') }));
 
         $('div.panel-body', this.el).append(this.productListView.render().el);
         return this;
@@ -60,7 +60,7 @@ var MealListView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).html(nunjucks.render('MealListView.html'));
+        $(this.el).html(nunjucks.render('meal/MealListView.html'));
 
         var self = this;
         _(this.mealList.models).each(function (meal) {

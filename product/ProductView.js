@@ -32,7 +32,7 @@ var ProductView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).html(nunjucks.render('ProductView.html',{
+        $(this.el).html(nunjucks.render('product/ProductView.html',{
             weight: this.model.get('weight'), proteins: this.effectiveValue('proteins'),
             carbohydrates: this.effectiveValue('carbohydrates'),
             fats: this.effectiveValue('fats'),
@@ -137,7 +137,7 @@ var ProductListView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).html(nunjucks.render('ProductListView.html'));
+        $(this.el).html(nunjucks.render('product/ProductListView.html'));
 
         var self = this;
         _(this.model.models).each(function (product) {
