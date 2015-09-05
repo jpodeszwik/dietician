@@ -6,11 +6,6 @@ $(function () {
     $.fn.editable.defaults.showbuttons = false;
     $.fn.editable.defaults.onblur = 'submit';
 
-    _.templateSettings = {
-        interpolate: /\{\{(.+?)\}\}/g
-    };
-
-
     var dietId = url('?id');
     if (dietId != null) {
         $.get('http://zbiki.ddns.net/diets/diet/' + dietId + '/_source', function onSuccess(data) {
