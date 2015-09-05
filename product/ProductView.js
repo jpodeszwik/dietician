@@ -32,7 +32,7 @@ var ProductView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).html(nunjucks.render('product/ProductView.html',{
+        $(this.el).html(nunjucks.render('product/ProductView.html', {
             weight: this.model.get('weight'), proteins: this.effectiveValue('proteins'),
             carbohydrates: this.effectiveValue('carbohydrates'),
             fats: this.effectiveValue('fats'),
@@ -130,14 +130,13 @@ var ProductListView = Backbone.View.extend({
     className: 'table',
 
     initialize: function () {
-        _.bindAll(this, 'render', 'appendProduct', 'summaryValue', 'updateSum');
-        this.model.bind('add', this.appendProduct);
+        _.bindAll(this, 'render', 'appendProduct', 'appendNewProduct', 'summaryValue', 'updateSum');
+        this.model.bind('add', this.appendNewProduct);
         this.model.bind('change', this.updateSum);
         this.model.bind('remove', this.updateSum);
     },
-
     render: function () {
-        $(this.el).html(nunjucks.render('product/ProductListView.html'));
+        this.$el.html(nunjucks.render('product/ProductListView.html'));
 
         var self = this;
         _(this.model.models).each(function (product) {
@@ -148,14 +147,21 @@ var ProductListView = Backbone.View.extend({
 
         return this;
     },
-
     appendProduct: function (product) {
         var productView = new ProductView({
             model: product
         });
-        $('tbody', this.el).append(productView.render().el);
-    },
 
+        var $productRow = productView.render().$el;
+        this.$('tbody').append($productRow);
+        return $productRow;
+    },
+    appendNewProduct: function (product) {
+        var $productRow = this.appendProduct(product);
+        setTimeout(function () {
+            $productRow.find('.product-select button').click();
+        }, 100);
+    },
     updateSum: function () {
         $("td.proteins_sum", this.el).text(this.summaryValue("proteins"));
         $("td.carbohydrates_sum", this.el).text(this.summaryValue("carbohydrates"));
