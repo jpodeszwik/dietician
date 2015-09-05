@@ -13,18 +13,26 @@ var CaloricIntakeView = Backbone.View.extend({
         $(this.el).html(nunjucks.render('caloric-intake/CaloricIntakeView.html'));
     },
 
-    calculateCaloricIntake: function() {
+    calculateCaloricIntake: function () {
         var dialog = new BootstrapDialog({
             title: 'Caloric intake calculator',
             type: BootstrapDialog.TYPE_INFO,
             message: nunjucks.render('caloric-intake/CaloricIntakeForm.html'),
             nl2br: false,
-            buttons: [{
-                label: 'Close',
-                action: function(dialogRef){
-                    dialogRef.close();
-                }
-            }]
+            buttons: [
+                {
+                    label: 'Save',
+                    cssClass: 'btn-primary',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                },
+                {
+                    label: 'Close',
+                    action: function (dialogRef) {
+                        dialogRef.close();
+                    }
+                }]
         });
         dialog.open();
     }
