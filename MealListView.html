@@ -1,0 +1,36 @@
+<div class="panel panel-default meals_panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-10"><h4>Meals</h4></div>
+            <div class="col-md-2">
+                <button id="save_diet" type="button" class="btn btn-info">Save diet</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="panel-group meal_list"></div>
+        <button id="add_meal" type="button" class="btn btn-success">Add Meal</button>
+        <div class="panel-footer meals_summary">
+            <table class="table">
+                <caption>Summary</caption>
+                <thead>
+                <tr>
+                    <th>Proteins</th>
+                    <th>Carbohydrates</th>
+                    <th>Fats</th>
+                    <th>Nutritive value</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="proteins_sum"></td>
+                    <td class="carbohydrates_sum"></td>
+                    <td class="fats_sum"></td>
+                    <td class="nutritive_value_sum"></td>
+                </tr>
+                </tbody>
+            </table>
+            <canvas id="myChart" height="400"></canvas>
+        </div>
+    </div>
+</div>
