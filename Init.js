@@ -1,4 +1,6 @@
 $(function () {
+    nunjucks.configure("", {web: {useCache: true}});
+
     var dietId = url('?id');
     if (dietId != null) {
         $.get('http://zbiki.ddns.net/diets/diet/' + dietId + '/_source', function onSuccess(data) {
