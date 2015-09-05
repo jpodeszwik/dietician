@@ -19,7 +19,11 @@ $(function () {
             var mealListView = new MealListView(mealListModel);
         });
     } else {
-        var mealListView = new MealListView(new MealList());
+        var mealList = new MealList();
+        var firstMeal = new Meal();
+        firstMeal.set('name', "Meal 1");
+        mealList.add(firstMeal);
+        var mealListView = new MealListView(mealList);
     }
 
     $.get('http://zbiki.ddns.net/products/_search?size=1000', function onSuccess(data) {

@@ -54,8 +54,6 @@ var MealListView = Backbone.View.extend({
         this.mealList.bind('add', this.appendMeal);
         this.mealList.bind('change', this.updateSummaries);
         this.mealList.bind('remove', this.updateSummaries);
-        this.counter = 0;
-        this.addMeal();
         this.render();
     },
 
@@ -71,11 +69,8 @@ var MealListView = Backbone.View.extend({
     },
 
     addMeal: function () {
-        this.counter++;
         var meal = new Meal();
-        meal.set({
-            name: 'Meal ' + this.counter
-        });
+        meal.set('name', "Meal " + (this.mealList.length + 1));
         this.mealList.add(meal);
     },
 
