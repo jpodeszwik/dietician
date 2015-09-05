@@ -20,11 +20,7 @@ var MealView = Backbone.View.extend({
 
     render: function () {
         $(this.el).html(nunjucks.render('meal/MealView.html', {name: this.model.get('name')}));
-        $.fn.editable.defaults.mode = 'inline';
-        $.fn.editable.defaults.showbuttons = false;
-        $.fn.editable.defaults.showbuttons = false;
-        $.fn.editable.defaults.onblur = 'submit';
-            this.$('.meal-name').editable({
+        this.$('.meal-name').editable({
             success: _.bind(function (response, newValue) {
                 this.model.set('name', newValue);
             }, this)
@@ -105,18 +101,7 @@ var MealListView = Backbone.View.extend({
         var document = {'mealList': this.mealList.toJSON()};
         $.post('http://zbiki.ddns.net/diets/diet', JSON.stringify(document), function onSuccess(data) {
             var dietUrl = window.location.href.split('?')[0] + '?id=' + data['_id'];
-            var dialog = new BootstrapDialog({
-                title: 'Dialog',
-                type: BootstrapDialog.TYPE_SUCCESS,
-                message: 'Your diet was successfully saved. Here is the <a href="' + dietUrl + '">link</a>  to your diet.',
-                buttons: [{
-                    label: 'Close',
-                    action: function (dialogRef) {
-                        dialogRef.close();
-                    }
-                }]
-            });
-            dialog.open();
+            window.location = dietUrl;
         });
     },
 
