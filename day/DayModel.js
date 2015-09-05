@@ -7,5 +7,11 @@ var Day = Backbone.Model.extend({
 });
 
 var DayCollection = Backbone.Collection.extend({
-    model: Day
+    model: Day,
+    switchTo: function(dayModel) {
+        this.models.forEach(function(model) {
+            model.set('active', false);
+        });
+        dayModel.set('active', true);
+    }
 });
