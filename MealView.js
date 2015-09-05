@@ -102,9 +102,19 @@ var MealListView = Backbone.View.extend({
     saveDiet: function () {
         var document = {'mealList': this.mealList.toJSON()};
         $.post('http://zbiki.ddns.net/diets/diet', JSON.stringify(document), function onSuccess(data) {
-            var dietUrl = url('hostname') + ':' + url('port') + url('path') + '?id=' + data['_id'];
-            //TODO: improve this
-            alert(dietUrl);
+            var dietUrl = window.location.href.split('?')[0] + '?id=' + data['_id'];
+            var dialog = new BootstrapDialog({
+                title: 'Dialog',
+                type: BootstrapDialog.TYPE_SUCCESS,
+                message: 'Your diet was successfully saved. Here is the <a href="' + dietUrl + '">link</a>  to your diet.',
+                buttons: [{
+                    label: 'Close',
+                    action: function(dialogRef){
+                        dialogRef.close();
+                    }
+                }]
+            });
+            dialog.open();
         });
     },
 
