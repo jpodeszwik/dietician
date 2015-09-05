@@ -17,8 +17,6 @@ Products.prototype = {
 
 var products = new Products();
 
-
-
 var ProductView = Backbone.View.extend({
     tagName: 'tr',
 
@@ -34,7 +32,13 @@ var ProductView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).html('<td><select class="selectpicker"></select></td><td><input type="text" class="form-control product_weight" value="' + this.model.get('weight') + '"></input></td><td>' + this.effectiveValue('proteins') + '</td><td>' + this.effectiveValue('carbohydrates') + '</td><td>' + this.effectiveValue('fats') + '</td><td>' + this.effectiveValue('nutritive_value') + '</td><td><button type="button" class="btn btn-danger delete_product">Remove Product</button></td>');
+        $(this.el).html(nunjucks.render('ProductView.html',{
+            weight: this.model.get('weight'), proteins: this.effectiveValue('proteins'),
+            carbohydrates: this.effectiveValue('carbohydrates'),
+            fats: this.effectiveValue('fats'),
+            nutritive_value: this.effectiveValue('nutritive_value')
+        }));
+
 
         var title;
         if (this.model.get('product_name') != '') {
@@ -133,10 +137,7 @@ var ProductListView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).html('<thead><th>Product Name</th><th>Product weight</th><th>Proteins</th><th>Carbohydrates</th><th>Fats</th><th>Nutritive value</th><th></th></thead>');
-        $(this.el).append('<tbody></tbody>');
-        $(this.el).append('<tfoot><tr><td colspan="7"><button type="button" class="btn btn-success add_product">Add Product</button></td></tr>');
-        $(this.el).append('<tr><td colspan="2">Summary</td><td class="proteins_sum"></td><td class="carbohydrates_sum"></td><td class="fats_sum"></td><td class="nutritive_value_sum"></td></tr></tfoot>');
+        $(this.el).html(nunjucks.render('ProductListView.html'));
 
         var self = this;
         _(this.model.models).each(function (product) {
