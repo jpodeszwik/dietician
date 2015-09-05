@@ -14,10 +14,11 @@ var CaloricIntakeView = Backbone.View.extend({
     },
 
     calculateCaloricIntake: function () {
-        var dialog = new BootstrapDialog({
+        var caloricIntakeFormView = new CaloricIntakeFormView();
+        BootstrapDialog.show({
             title: 'Caloric intake calculator',
             type: BootstrapDialog.TYPE_INFO,
-            message: nunjucks.render('caloric-intake/CaloricIntakeForm.html'),
+            message: caloricIntakeFormView.$el,
             nl2br: false,
             buttons: [
                 {
@@ -29,11 +30,10 @@ var CaloricIntakeView = Backbone.View.extend({
                 },
                 {
                     label: 'Close',
-                    action: function (dialogRef) {
-                        dialogRef.close();
+                    action: function (dialog) {
+                        dialog.close();
                     }
                 }]
         });
-        dialog.open();
     }
 });
