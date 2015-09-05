@@ -1,4 +1,3 @@
-
 var MealView = Backbone.View.extend({
     tagName: 'div',
     className: 'panel panel-default',
@@ -20,8 +19,16 @@ var MealView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).html(nunjucks.render('meal/MealView.html', { name: this.model.get('name') }));
-
+        $(this.el).html(nunjucks.render('meal/MealView.html', {name: this.model.get('name')}));
+        $.fn.editable.defaults.mode = 'inline';
+        $.fn.editable.defaults.showbuttons = false;
+        $.fn.editable.defaults.showbuttons = false;
+        $.fn.editable.defaults.onblur = 'submit';
+            this.$('.meal-name').editable({
+            success: _.bind(function (response, newValue) {
+                this.model.set('name', newValue);
+            }, this)
+        }, this);
         $('div.panel-body', this.el).append(this.productListView.render().el);
         return this;
     },
@@ -104,7 +111,7 @@ var MealListView = Backbone.View.extend({
                 message: 'Your diet was successfully saved. Here is the <a href="' + dietUrl + '">link</a>  to your diet.',
                 buttons: [{
                     label: 'Close',
-                    action: function(dialogRef){
+                    action: function (dialogRef) {
                         dialogRef.close();
                     }
                 }]
@@ -113,7 +120,7 @@ var MealListView = Backbone.View.extend({
         });
     },
 
-    displayChart: function() {
+    displayChart: function () {
         var proteinsCalories = this.summaryValue('proteins') * 4;
         var carbohydratesCalories = this.summaryValue('carbohydrates') * 4;
         var fatsCalories = this.summaryValue('fats') * 9;
