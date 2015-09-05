@@ -98,8 +98,7 @@ var MealListView = Backbone.View.extend({
     },
 
     saveDiet: function () {
-        var document = {'mealList': this.mealList.toJSON()};
-        $.post('http://zbiki.ddns.net/diets/diet', JSON.stringify(document), function onSuccess(data) {
+        Search.Save(this.mealList, function onSuccess(data) {
             var dietUrl = window.location.href.split('?')[0] + '?id=' + data['_id'];
             window.location = dietUrl;
         });

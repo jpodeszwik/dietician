@@ -42,4 +42,14 @@ $(function () {
         });
     });
 
+    var days = new DayCollection();
+    days.add(new Day({name: "Monday", meals: [], active: true}));
+    days.add(new Day({name: "Tuesday", meals: []}));
+    days.add(new Day({name: "Wednesday", meals: []}));
+    days.add(new Day({name: "Thursday", meals: []}));
+    days.add(new Day({name: "Friday", meals: []}));
+    var dayCollectionView = new DayCollectionView({collection: days});
+    dayCollectionView.setElement($('.days-list'));
+    dayCollectionView.render();
+
 });
