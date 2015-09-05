@@ -1,3 +1,11 @@
+#meals-container {
+    margin-top: 50px;
+}
+
+div.intake-progress-bar {
+    margin: 10px 0;
+}
+
 .meal-name.editable-click {
     display: inline-block;
 }

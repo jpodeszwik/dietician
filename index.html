@@ -34,13 +34,34 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="navbar-brand" href="javascript:void(0)">Dietician</a>
         </div>
-        <div id="caloric-intake-calculator"></div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+
+        <div class="row">
+            <div id="caloric-intake-calculator" class="col-xs-2"></div>
+            <div class="col-xs-10 progress intake-progress-bar">
+                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                     aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                    <span class="sr-only">40% Complete (success)</span>
+                </div>
+            </div>
+        </div>
     </div>
 </nav>
 <div class="container jumbotron">
-    <div id="meals_container" class="container"></div>
+    <div id="meals-container" class="container"></div>
 </div>
 
 </body>

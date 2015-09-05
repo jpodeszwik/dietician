@@ -52,7 +52,7 @@ var MealListView = Backbone.View.extend({
 
     initialize: function (mealList) {
         _.bindAll(this, 'render', 'addMeal', 'appendMeal', 'updateSummaries', 'summaryValue', 'saveDiet', 'displayChart');
-        this.setElement($('#meals_container'));
+        this.setElement($('#meals-container'));
         this.mealList = mealList;
         this.mealList.bind('add', this.appendMeal);
         this.mealList.bind('change', this.updateSummaries);
