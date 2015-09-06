@@ -1,4 +1,3 @@
-
 var Product = Backbone.Model.extend({
     defaults: {
         product_name: '',
