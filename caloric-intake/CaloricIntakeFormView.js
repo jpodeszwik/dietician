@@ -2,6 +2,7 @@ var CaloricIntakeFormView = Marionette.ItemView.extend({
     template: 'caloric-intake/CaloricIntakeFormView.html',
     ui: {
         control: ".form-control",
+        select: "select",
         form: "form"
     },
 
@@ -11,6 +12,15 @@ var CaloricIntakeFormView = Marionette.ItemView.extend({
 
     initialize: function () {
         this.render();
+    },
+
+    onRender: function () {
+        var self = this;
+        this.ui.select.each(function (idx, select) {
+            var name = $(select).attr('name');
+            var value = self.model.get(name);
+            $(select).find('option[value="' + value + '"]').attr('selected', 'true');
+        })
     },
 
     formChanged: function () {
