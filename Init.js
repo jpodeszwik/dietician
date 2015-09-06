@@ -14,28 +14,16 @@ $(function () {
     };
 
     var dietId = url('?id');
+
+    var mealListModel = new MealList();
+    var mealListView = new MealListView(mealListModel);
+
     if (dietId != null) {
-        $.get('http://zbiki.ddns.net/diets/diet/' + dietId + '/_source', function onSuccess(data) {
-            var mealList = data['mealList'];
-            var mealListModel = new MealList();
-
-            //somehow MealList model didn't want to load the whole json
-            mealList.forEach(function (meal) {
-                var mealModel = new Meal({
-                    name: meal['name'],
-                    productList: new ProductList(meal['productList'])
-                });
-                mealListModel.add(mealModel);
-            });
-
-            var mealListView = new MealListView(mealListModel);
-        });
+        Search.Load(dietId, mealListModel);
     } else {
-        var mealList = new MealList();
         var firstMeal = new Meal();
         firstMeal.set('name', "Meal 1");
-        mealList.add(firstMeal);
-        var mealListView = new MealListView(mealList);
+        mealListModel.add(firstMeal);
     }
 
     var caloricIntakeView = new CaloricIntakeView();
@@ -50,11 +38,11 @@ $(function () {
     });
 
     var days = new DayCollection();
-    days.add(new Day({name: "Monday", meals: [], active: true}));
-    days.add(new Day({name: "Tuesday", meals: []}));
-    days.add(new Day({name: "Wednesday", meals: []}));
-    days.add(new Day({name: "Thursday", meals: []}));
-    days.add(new Day({name: "Friday", meals: []}));
+    days.add(new Day({name: "Monday", meals: mealListModel  , active: true}));
+    days.add(new Day({name: "Tuesday", meals: new MealList()}));
+    days.add(new Day({name: "Wednesday", meals: new MealList()}));
+    days.add(new Day({name: "Thursday", meals: new MealList()}));
+    days.add(new Day({name: "Friday", meals: new MealList()}));
     var dayCollectionView = new DayCollectionView({collection: days});
     dayCollectionView.setElement($('.days-list'));
     dayCollectionView.render();
