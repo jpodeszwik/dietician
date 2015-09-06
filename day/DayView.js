@@ -18,8 +18,21 @@ var DayView = Marionette.ItemView.extend({
 });
 
 var DayCollectionView = Marionette.CollectionView.extend({
+    tagName: 'ul',
+    className: 'nav nav-tabs',
     childView: DayView,
     initialize: function () {
         this.collection.on('change', this.render, this);
+    }
+});
+
+var DaysPanelView = Marionette.LayoutView.extend({
+    el: $('.outerView'),
+    template: function() {},
+    regions: {
+        days: ".days-list",
+        meals: "#meals-container"
+    },
+    initialize: function () {
     }
 });

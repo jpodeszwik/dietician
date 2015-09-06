@@ -17,29 +17,44 @@ function configureLibs() {
     };
 }
 
+var App = {};
+
 var setupApp = function () {
     var dietId = url('?id');
 
-    var days = new DayCollection();
+    App.days = new DayCollection();
+    var daysCollection = App.days;
     var mealListModel = new MealList();
 
+    App.daysPanelView = undefined;
+
     if (dietId != null) {
-        Search.Load(dietId, mealListModel);
+        Search.Load(dietId, daysCollection, function () {
+            App.daysPanelView = prepareView(daysCollection)
+        });
     } else {
         var firstMeal = new Meal();
         firstMeal.set('name', "Meal 1");
         mealListModel.add(firstMeal);
 
-        days.add(new Day({name: "Monday", meals: mealListModel, active: true}));
-        days.add(new Day({name: "Tuesday", meals: new MealList()}));
-        days.add(new Day({name: "Wednesday", meals: new MealList()}));
-        days.add(new Day({name: "Thursday", meals: new MealList()}));
-        days.add(new Day({name: "Friday", meals: new MealList()}));
+        daysCollection.add(new Day({name: "Monday", meals: mealListModel, active: true}));
+        daysCollection.add(new Day({name: "Tuesday", meals: new MealList()}));
+        daysCollection.add(new Day({name: "Wednesday", meals: new MealList()}));
+        daysCollection.add(new Day({name: "Thursday", meals: new MealList()}));
+        daysCollection.add(new Day({name: "Friday", meals: new MealList()}));
+        App.daysPanelView = prepareView(daysCollection)
     }
 
     var caloricIntakeView = new CaloricIntakeView();
-    var mealListView = new MealListView(mealListModel);
-    var dayCollectionView = new DayCollectionView({collection: days});
-    dayCollectionView.setElement($('.days-list'));
-    dayCollectionView.render();
+
+    function prepareView(daysCollection) {
+        var mealListView = new MealListView(daysCollection.models[0].get('meals'));
+        var dayCollectionView = new DayCollectionView({collection: daysCollection});
+        var daysPanelView = new DaysPanelView({model: daysCollection});
+        daysPanelView.render();
+        daysPanelView.showChildView('days', dayCollectionView);
+        daysPanelView.showChildView('meals', mealListView);
+        return daysPanelView;
+    }
+
 };

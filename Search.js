@@ -1,21 +1,32 @@
 function Search() {
 }
 
-Search.Save = function (mealListModel, onSuccess) {
-    var document = {'mealList': mealListModel.toJSON()};
+Search.Save = function (daysModel, onSuccess) {
+    var document = {'daysCollection': daysModel.toJSON()};
     $.post('http://zbiki.ddns.net/diets/diet', JSON.stringify(document), onSuccess);
 };
 
-Search.Load = function (dietId, mealListModel) {
+Search.Load = function (dietId, daysCollection, onDone) {
     $.get('http://zbiki.ddns.net/diets/diet/' + dietId + '/_source', function onSuccess(data) {
-        var mealList = data['mealList'];
+        var daysList = data.daysCollection;
 
-        _.each(mealList, function (meal) {
-            var mealModel = new Meal({
-                name: meal.name,
-                productList: new ProductList(meal.productList)
+        _.each(daysList, function (day) {
+            var mealsCollection = new MealList();
+            _.each(day.meals, function (meal) {
+                var mealModel = new Meal({
+                    name: meal.name,
+                    productList: new ProductList(meal.productList)
+                });
+                mealsCollection.add(mealModel);
             });
-            mealListModel.add(mealModel);
+            var day = new Day({
+                name: day.name,
+                meals: mealsCollection,
+                active: day.active
+            });
+            daysCollection.add(day);
         });
+
+        onDone();
     });
 };

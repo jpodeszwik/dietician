@@ -52,12 +52,10 @@ var MealListView = Backbone.View.extend({
 
     initialize: function (mealList) {
         _.bindAll(this, 'render', 'addMeal', 'appendMeal', 'updateSummaries', 'summaryValue', 'saveDiet', 'displayChart');
-        this.setElement($('#meals-container'));
         this.mealList = mealList;
         this.mealList.bind('add', this.appendMeal);
         this.mealList.bind('change', this.updateSummaries);
         this.mealList.bind('remove', this.updateSummaries);
-        this.render();
     },
 
     render: function () {
@@ -98,7 +96,7 @@ var MealListView = Backbone.View.extend({
     },
 
     saveDiet: function () {
-        Search.Save(this.mealList, function onSuccess(data) {
+        Search.Save(App.days, function onSuccess(data) {
             var dietUrl = window.location.href.split('?')[0] + '?id=' + data['_id'];
             window.location = dietUrl;
         });
@@ -123,7 +121,9 @@ var MealListView = Backbone.View.extend({
             ]
         };
 
-        var ctx = $("#myChart").get(0).getContext("2d");
-        var myBarChart = new Chart(ctx).Bar(chartData);
+        // TODO make it work again!!!
+
+        //var ctx = $("#myChart").get(0).getContext("2d");
+        //var myBarChart = new Chart(ctx).Bar(chartData);
     }
 });
