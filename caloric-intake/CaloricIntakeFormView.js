@@ -1,16 +1,24 @@
 var CaloricIntakeFormView = Marionette.ItemView.extend({
     template: 'caloric-intake/CaloricIntakeFormView.html',
     ui: {
-        sex: "#form-sex"
+        control: ".form-control",
+        form: "form"
     },
+
     events: {
-        'change @ui.sex': 'sexChanged'
+        'change @ui.control': 'formChanged'
     },
+
     initialize: function () {
-        _.bindAll(this, 'render');
         this.render();
     },
-    sexChanged: function () {
-        alert(this.ui.sex.val())
+
+    formChanged: function () {
+        var formArr = this.ui.form.serializeArray();
+        var formData = _.reduce(formArr, function (ret, val) {
+            ret[val.name] = val.value;
+            return ret;
+        }, {});
+        this.model.set(formData);
     }
 });

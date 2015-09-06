@@ -1,4 +1,4 @@
-var CaloricIntake = Backbone.Model.extend({
+var CaloricIntakeModel = Backbone.Model.extend({
     defaults: {
         sex: 'Male',
         age: 20,

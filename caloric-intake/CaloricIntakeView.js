@@ -14,7 +14,8 @@ var CaloricIntakeView = Backbone.View.extend({
     },
 
     calculateCaloricIntake: function () {
-        var caloricIntakeFormView = new CaloricIntakeFormView();
+        var caloricIntakeFormView = new CaloricIntakeFormView({model: new CaloricIntakeModel()});
+
         BootstrapDialog.show({
             title: 'Caloric intake calculator',
             type: BootstrapDialog.TYPE_INFO,
