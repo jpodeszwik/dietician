@@ -43,18 +43,6 @@
         </div>
         <div class="col-xs-6">
             <div class="form-group">
-                <label for="form-daily-physical-activity">Daily physical activity:</label>
-                <select class="form-control" id="form-daily-physical-activity" name="dailyPhysicalActivity">
-                    <option value="Small">Small</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6">
-            <div class="form-group">
                 <label for="form-diet-target">Diet target:</label>
                 <select class="form-control" id="form-diet-target" name="dietTarget">
                     <option value="Mass loss">Mass loss</option>
@@ -62,7 +50,6 @@
                 </select>
             </div>
         </div>
-
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">Weight training</div>
@@ -124,6 +111,11 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            Your caloric intake: <b>{{caloricIntake}}</b>
         </div>
     </div>
 </form>

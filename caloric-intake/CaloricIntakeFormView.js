@@ -20,7 +20,13 @@ var CaloricIntakeFormView = Marionette.ItemView.extend({
             var name = $(select).attr('name');
             var value = self.model.get(name);
             $(select).find('option[value="' + value + '"]').attr('selected', 'true');
-        })
+        });
+    },
+
+    serializeData: function () {
+        var ret = this.model.toJSON();
+        ret['caloricIntake'] = this.model.dailyCaloricIntake().toFixed(2);
+        return ret;
     },
 
     formChanged: function () {
@@ -30,5 +36,6 @@ var CaloricIntakeFormView = Marionette.ItemView.extend({
             return ret;
         }, {});
         this.model.set(formData);
+        this.render();
     }
 });

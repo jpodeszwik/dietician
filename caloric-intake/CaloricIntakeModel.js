@@ -5,12 +5,11 @@ var CaloricIntakeModel = Backbone.Model.extend({
         height: 180,
         weight: 80,
         bodyType: 'Mesomorph',
-        dailyPhysicalActivity: 'Medium',
         dietTarget: 'Mass loss',
         weightTrainingAverageTime: 90,
         weightTrainingTimesPerWeek: 3,
         weightTrainingIntensity: 'Medium',
-        aerobicTrainingAverageTime: 30,
+        aerobicTrainingAverageTime: 90,
         aerobicTrainingTimesPerWeek: 2,
         aerobicTrainingIntensity: 'Medium'
     },
@@ -88,5 +87,15 @@ var CaloricIntakeModel = Backbone.Model.extend({
 
     tdee: function () {
         return this.bmr() + this.tea() + this.neat() + this.tef();
+    },
+
+    dailyCaloricIntake: function () {
+        var dietTargetMap = {
+            'Mass gain': 300,
+            'Mass loss': -300
+        };
+        var dietTargetAddition = dietTargetMap[this.get('dietTarget')];
+
+        return this.tdee() + dietTargetAddition;
     }
 });
