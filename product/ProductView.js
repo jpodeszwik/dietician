@@ -29,7 +29,8 @@ $(function () {
     });
 });
 
-var ProductView = Backbone.View.extend({
+var ProductView = Marionette.ItemView.extend({
+    template: 'product/ProductView.html',
     tagName: 'tr',
 
     events: {
@@ -43,15 +44,16 @@ var ProductView = Backbone.View.extend({
         this.model.bind('remove', this.unrender);
     },
 
-    render: function () {
-        $(this.el).html(nunjucks.render('product/ProductView.html', {
+    serializeData: function() {
+        return {
             weight: this.model.get('weight'), proteins: this.effectiveValue('proteins'),
             carbohydrates: this.effectiveValue('carbohydrates'),
             fats: this.effectiveValue('fats'),
             nutritive_value: this.effectiveValue('nutritive_value')
-        }));
+        }
+    },
 
-
+    onRender: function () {
         var title;
         if (this.model.get('product_name') != '') {
             title = this.model.get('product_name');
@@ -81,17 +83,14 @@ var ProductView = Backbone.View.extend({
                     emptyTitle: title
                 },
                 preprocessData: function (data) {
-
-                    var ctr = 0;
                     var hits = data["hits"]["hits"];
 
                     var foundProducts = [];
                     hits.forEach(function (hit) {
-                        ctr++;
                         var productName = hit["_source"]["product_name"];
                         foundProducts.push(
                             {
-                                'value': ctr,
+                                'value': productName,
                                 'text': productName,
                                 'disable': false
                             }
