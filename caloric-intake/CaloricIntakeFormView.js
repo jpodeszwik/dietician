@@ -12,6 +12,10 @@ var CaloricIntakeFormView = Marionette.ItemView.extend({
 
     initialize: function () {
         this.render();
+
+        this.listenTo(this.model, 'change', function () {
+            this.render();
+        });
     },
 
     onRender: function () {
@@ -36,6 +40,5 @@ var CaloricIntakeFormView = Marionette.ItemView.extend({
             return ret;
         }, {});
         this.model.set(formData);
-        this.render();
     }
 });
