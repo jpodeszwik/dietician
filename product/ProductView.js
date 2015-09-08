@@ -136,7 +136,8 @@ var ProductView = Marionette.ItemView.extend({
     }
 });
 
-var ProductListView = Backbone.View.extend({
+var ProductListView = Marionette.ItemView.extend({
+    template: 'product/ProductListView.html',
     tagName: 'table',
     className: 'table',
 
@@ -146,9 +147,8 @@ var ProductListView = Backbone.View.extend({
         this.model.bind('change', this.updateSum);
         this.model.bind('remove', this.updateSum);
     },
-    render: function () {
-        this.$el.html(nunjucks.render('product/ProductListView.html'));
 
+    onRender: function () {
         var self = this;
         _(this.model.models).each(function (product) {
             self.appendProduct(product);
