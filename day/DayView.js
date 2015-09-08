@@ -10,7 +10,7 @@ var DayView = Marionette.ItemView.extend({
         }
     },
     template: function (day) {
-        return nunjucks.renderString('<a href="#" >{{name}}</a>', {name: day.name})
+        return nunjucks.renderString('<a href="javascript:void(0)" >{{name}}</a>', {name: day.name})
     },
     tabChanged: function () {
         this.model.collection.switchTo(this.model);
