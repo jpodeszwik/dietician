@@ -44,7 +44,7 @@ var ProductView = Marionette.ItemView.extend({
         this.model.bind('remove', this.unrender);
     },
 
-    serializeData: function() {
+    serializeData: function () {
         return {
             weight: this.model.get('weight'), proteins: this.effectiveValue('proteins'),
             carbohydrates: this.effectiveValue('carbohydrates'),
@@ -142,10 +142,19 @@ var ProductListView = Marionette.ItemView.extend({
     className: 'table',
 
     initialize: function () {
-        _.bindAll(this, 'render', 'appendProduct', 'appendNewProduct', 'summaryValue', 'updateSum');
+        _.bindAll(this, 'render', 'appendProduct', 'appendNewProduct', 'summaryValue');
         this.model.bind('add', this.appendNewProduct);
-        this.model.bind('change', this.updateSum);
-        this.model.bind('remove', this.updateSum);
+        this.model.bind('change', this.render);
+        this.model.bind('remove', this.render);
+    },
+
+    serializeData: function () {
+        return {
+            proteinsSum: this.summaryValue("proteins"),
+            carbohydratesSum: this.summaryValue("carbohydrates"),
+            fatsSum: this.summaryValue("fats"),
+            nutritiveValueSum: this.summaryValue("nutritive_value")
+        }
     },
 
     onRender: function () {
@@ -153,8 +162,6 @@ var ProductListView = Marionette.ItemView.extend({
         _(this.model.models).each(function (product) {
             self.appendProduct(product);
         });
-
-        this.updateSum();
 
         return this;
     },
@@ -172,12 +179,6 @@ var ProductListView = Marionette.ItemView.extend({
         setTimeout(function () {
             $productRow.find('.product-select button').click();
         }, 100);
-    },
-    updateSum: function () {
-        $("td.proteins_sum", this.el).text(this.summaryValue("proteins"));
-        $("td.carbohydrates_sum", this.el).text(this.summaryValue("carbohydrates"));
-        $("td.fats_sum", this.el).text(this.summaryValue("fats"));
-        $("td.nutritive_value_sum", this.el).text(this.summaryValue("nutritive_value"));
     },
 
     summaryValue: function (param_name) {
