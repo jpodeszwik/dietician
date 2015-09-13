@@ -43,36 +43,42 @@ var MealView = Backbone.View.extend({
 
 });
 
-var MealListView = Backbone.View.extend({
+var MealListView = Marionette.ItemView.extend({
+    template: 'meal/MealListView.html',
 
     events: {
         'click button#add_meal': 'addMeal',
         'click button#save_diet': 'saveDiet'
     },
 
-    initialize: function (mealList) {
-        _.bindAll(this, 'render', 'addMeal', 'appendMeal', 'updateSummaries', 'summaryValue', 'saveDiet', 'displayChart');
-        this.mealList = mealList;
-        this.mealList.bind('add', this.appendMeal);
-        this.mealList.bind('change', this.updateSummaries);
-        this.mealList.bind('remove', this.updateSummaries);
+    serializeData: function () {
+        return {
+            proteinsSum: this.summaryValue("proteins"),
+            carbohydratesSum: this.summaryValue("carbohydrates"),
+            fatsSum: this.summaryValue("fats"),
+            nutritiveValueSum: this.summaryValue("nutritive_value")
+        }
     },
 
-    render: function () {
-        $(this.el).html(nunjucks.render('meal/MealListView.html'));
+    initialize: function (mealList) {
+        _.bindAll(this, 'render', 'addMeal', 'appendMeal', 'updateSummaries', 'summaryValue', 'saveDiet');
+        this.model = mealList;
+        this.model.bind('add', this.appendMeal);
+        this.model.bind('change', this.updateSummaries);
+        this.model.bind('remove', this.updateSummaries);
+    },
 
+    onRender: function () {
         var self = this;
-        _(this.mealList.models).each(function (meal) {
+        _(this.model.models).each(function (meal) {
             self.appendMeal(meal);
         });
-
-        this.updateSummaries();
     },
 
     addMeal: function () {
         var meal = new Meal();
-        meal.set('name', "Meal " + (this.mealList.length + 1));
-        this.mealList.add(meal);
+        meal.set('name', "Meal " + (this.model.length + 1));
+        this.model.add(meal);
     },
 
     appendMeal: function (meal) {
@@ -87,12 +93,10 @@ var MealListView = Backbone.View.extend({
         $("td.carbohydrates_sum", "div.meals_summary", this.el).text(this.summaryValue("carbohydrates"));
         $("td.fats_sum", "div.meals_summary", this.el).text(this.summaryValue("fats"));
         $("td.nutritive_value_sum", "div.meals_summary", this.el).text(this.summaryValue("nutritive_value"));
-
-        this.displayChart();
     },
 
     summaryValue: function (name) {
-        return this.mealList.summaryValue(name).toFixed(2);
+        return this.model.summaryValue(name).toFixed(2);
     },
 
     saveDiet: function () {
@@ -100,30 +104,5 @@ var MealListView = Backbone.View.extend({
             var dietUrl = window.location.href.split('?')[0] + '?id=' + data['_id'];
             window.location = dietUrl;
         });
-    },
-
-    displayChart: function () {
-        var proteinsCalories = this.summaryValue('proteins') * 4;
-        var carbohydratesCalories = this.summaryValue('carbohydrates') * 4;
-        var fatsCalories = this.summaryValue('fats') * 9;
-
-        var chartData = {
-            labels: ["Proteins", "Carbohydrates", "Fats"],
-            datasets: [
-                {
-                    label: "Calories from sources",
-                    fillColor: "rgba(151,187,205,0.5)",
-                    strokeColor: "rgba(151,187,205,0.8)",
-                    highlightFill: "rgba(151,187,205,0.75)",
-                    highlightStroke: "rgba(151,187,205,1)",
-                    data: [proteinsCalories, carbohydratesCalories, fatsCalories]
-                }
-            ]
-        };
-
-        // TODO make it work again!!!
-
-        //var ctx = $("#myChart").get(0).getContext("2d");
-        //var myBarChart = new Chart(ctx).Bar(chartData);
     }
 });

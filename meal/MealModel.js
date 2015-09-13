@@ -1,12 +1,11 @@
-
 var Meal = Backbone.Model.extend({
     defaults: {
         name: 'MealX',
         productList: null
     },
 
-    initialize: function ()  {
-        if(this.get('productList') == null) {
+    initialize: function () {
+        if (this.get('productList') == null) {
             this.set('productList', new ProductList());
         }
 
@@ -28,6 +27,12 @@ var Meal = Backbone.Model.extend({
 
 var MealList = Backbone.Collection.extend({
     model: Meal,
+
+    initialize: function () {
+        //somehow without this line other binds to change didn't work
+        this.bind('change', function () {
+        })
+    },
 
     summaryValue: function (name) {
         var mapped = _.map(this.models, function (meal) {
