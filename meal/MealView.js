@@ -1,4 +1,5 @@
-var MealView = Backbone.View.extend({
+var MealView = Marionette.ItemView.extend({
+    template: 'meal/MealView.html',
     tagName: 'div',
     className: 'panel panel-default',
 
@@ -18,8 +19,7 @@ var MealView = Backbone.View.extend({
         });
     },
 
-    render: function () {
-        $(this.el).html(nunjucks.render('meal/MealView.html', {name: this.model.get('name')}));
+    onRender: function () {
         this.$('.meal-name').editable({
             success: _.bind(function (response, newValue) {
                 this.model.set('name', newValue);
