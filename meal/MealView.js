@@ -11,7 +11,6 @@ var MealView = Marionette.ItemView.extend({
     initialize: function () {
         _.bindAll(this, 'render', 'unrender', 'remove', 'addProduct');
 
-        this.model.bind('change', this.render);
         this.model.bind('remove', this.unrender);
         this.model.bind('addProduct', this.addProduct);
         this.productListView = new ProductListView({
