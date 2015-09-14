@@ -57,4 +57,13 @@ var setupApp = function () {
         return daysPanelView;
     }
 
+    function saveDiet() {
+        Search.Save(App.days, function onSuccess(data) {
+            var dietUrl = window.location.href.split('?')[0] + '?id=' + data['_id'];
+            window.location = dietUrl;
+        });
+    }
+
+    $('#save_diet').click(saveDiet);
+
 };

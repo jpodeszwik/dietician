@@ -46,8 +46,7 @@ var MealListView = Marionette.ItemView.extend({
     template: 'meal/MealListView.html',
 
     events: {
-        'click button#add_meal': 'addMeal',
-        'click button#save_diet': 'saveDiet'
+        'click button#add_meal': 'addMeal'
     },
 
     serializeData: function () {
@@ -60,7 +59,7 @@ var MealListView = Marionette.ItemView.extend({
     },
 
     initialize: function (mealList) {
-        _.bindAll(this, 'render', 'addMeal', 'appendMeal', 'updateSummaries', 'summaryValue', 'saveDiet');
+        _.bindAll(this, 'render', 'addMeal', 'appendMeal', 'updateSummaries', 'summaryValue');
         this.model = mealList;
         this.model.bind('add', this.appendMeal);
         this.model.bind('change', this.updateSummaries);
@@ -96,12 +95,5 @@ var MealListView = Marionette.ItemView.extend({
 
     summaryValue: function (name) {
         return this.model.summaryValue(name).toFixed(2);
-    },
-
-    saveDiet: function () {
-        Search.Save(App.days, function onSuccess(data) {
-            var dietUrl = window.location.href.split('?')[0] + '?id=' + data['_id'];
-            window.location = dietUrl;
-        });
     }
 });
