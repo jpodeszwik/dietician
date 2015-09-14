@@ -148,13 +148,20 @@ var ProductListView = Marionette.ItemView.extend({
         this.model.bind('remove', this.updateSum);
     },
 
+    serializeData: function () {
+        return {
+            proteinsSum: this.summaryValue("proteins"),
+            carbohydratesSum: this.summaryValue("carbohydrates"),
+            fatsSum: this.summaryValue("fats"),
+            nutritiveValueSum: this.summaryValue("nutritive_value")
+        }
+    },
+
     onRender: function () {
         var self = this;
         _(this.model.models).each(function (product) {
             self.appendProduct(product);
         });
-
-        this.updateSum();
 
         return this;
     },
