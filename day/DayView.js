@@ -28,11 +28,24 @@ var DayCollectionView = Marionette.CollectionView.extend({
 
 var DaysPanelView = Marionette.LayoutView.extend({
     el: $('.outerView'),
-    template: function() {},
+    template: function () {
+    },
     regions: {
         days: ".days-list",
         meals: "#meals-container"
     },
     initialize: function () {
+        this.model.on('change', this.displayActiveMeal, this);
+    },
+
+    displayActiveMeal: function () {
+        if (this.model.getActive() !== undefined) {
+            this.showChildView('meals', new MealListView(this.model.getActive().get('meals')));
+        }
+    },
+
+    onRender: function () {
+        this.showChildView('days', new DayCollectionView({collection: this.model}));
+        this.displayActiveMeal();
     }
 });

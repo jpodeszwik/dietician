@@ -8,10 +8,16 @@ var Day = Backbone.Model.extend({
 
 var DayCollection = Backbone.Collection.extend({
     model: Day,
-    switchTo: function(dayModel) {
-        this.models.forEach(function(model) {
+    switchTo: function (dayModel) {
+        this.models.forEach(function (model) {
             model.set('active', false);
         });
         dayModel.set('active', true);
+    },
+
+    getActive: function () {
+        return _.find(this.models, function (day) {
+            return day.get('active');
+        });
     }
 });

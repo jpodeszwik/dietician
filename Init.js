@@ -58,12 +58,9 @@ var setupApp = function () {
     var caloricIntakeView = new CaloricIntakeView();
 
     function prepareView(daysCollection) {
-        var mealListView = new MealListView(daysCollection.models[0].get('meals'));
-        var dayCollectionView = new DayCollectionView({collection: daysCollection});
         var daysPanelView = new DaysPanelView({model: daysCollection});
         daysPanelView.render();
-        daysPanelView.showChildView('days', dayCollectionView);
-        daysPanelView.showChildView('meals', mealListView);
+
         return daysPanelView;
     }
 
