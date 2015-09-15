@@ -19,25 +19,22 @@ function configureLibs() {
 
 var App = {};
 
-function createEmptyDiet() {
-    var diet = new Diet();
-    var dayCollection = new DayCollection();
-    diet.set('days', dayCollection);
-
+function createNewDay(name, active) {
     var mealListModel = new MealList();
-    var firstMeal = new Meal();
-    firstMeal.set('name', "Meal 1");
+    var firstMeal = new Meal({name: 'Meal 1'});
     mealListModel.add(firstMeal);
+    return new Day({name: name, meals: mealListModel, active: active})
+}
 
-    dayCollection.add(new Day({name: "Monday", meals: mealListModel, active: true}));
-    dayCollection.add(new Day({name: "Tuesday", meals: new MealList()}));
-    dayCollection.add(new Day({name: "Wednesday", meals: new MealList()}));
-    dayCollection.add(new Day({name: "Thursday", meals: new MealList()}));
-    dayCollection.add(new Day({name: "Friday", meals: new MealList()}));
+function createEmptyDiet() {
+    var dayCollection = new DayCollection();
+    dayCollection.add(createNewDay("Monday", true));
+    dayCollection.add(createNewDay("Tuesday", false));
+    dayCollection.add(createNewDay("Wednesday", false));
+    dayCollection.add(createNewDay("Thursday", false));
+    dayCollection.add(createNewDay("Friday", false));
 
-    diet.set('caloricIntake', new CaloricIntakeModel());
-
-    return diet;
+    return new Diet({days: dayCollection, caloricIntake: new CaloricIntakeModel()});
 }
 
 var setupApp = function () {
