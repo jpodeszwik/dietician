@@ -14,7 +14,8 @@ var CaloricIntakeView = Backbone.View.extend({
     },
 
     calculateCaloricIntake: function () {
-        var caloricIntakeFormView = new CaloricIntakeFormView({model: App.diet.get('caloricIntake')});
+        var caloricIntakeClone = App.diet.get('caloricIntake').clone();
+        var caloricIntakeFormView = new CaloricIntakeFormView({model: caloricIntakeClone});
 
         BootstrapDialog.show({
             title: 'Caloric intake calculator',
@@ -23,14 +24,15 @@ var CaloricIntakeView = Backbone.View.extend({
             nl2br: false,
             buttons: [
                 {
-                    label: 'Save',
+                    label: 'Apply',
                     cssClass: 'btn-primary',
                     action: function (dialog) {
+                        App.diet.get('caloricIntake').set(caloricIntakeClone.attributes);
                         dialog.close();
                     }
                 },
                 {
-                    label: 'Close',
+                    label: 'Cancel',
                     action: function (dialog) {
                         dialog.close();
                     }
