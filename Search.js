@@ -11,6 +11,7 @@ Search.Load = function (dietId, onDone) {
         var diet = new Diet();
         var daysCollection = new DayCollection();
         diet.set('days', daysCollection);
+        diet.set('caloricIntake', new CaloricIntakeModel(data.caloricIntake));
 
         var daysList = data.days;
         _.each(daysList, function (day) {

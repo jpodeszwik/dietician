@@ -35,6 +35,8 @@ function createEmptyDiet() {
     dayCollection.add(new Day({name: "Thursday", meals: new MealList()}));
     dayCollection.add(new Day({name: "Friday", meals: new MealList()}));
 
+    diet.set('caloricIntake', new CaloricIntakeModel());
+
     return diet;
 }
 
