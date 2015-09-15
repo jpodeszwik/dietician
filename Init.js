@@ -19,30 +19,38 @@ function configureLibs() {
 
 var App = {};
 
+function createEmptyDiet() {
+    var diet = new Diet();
+    var dayCollection = new DayCollection();
+    diet.set('days', dayCollection);
+
+    var mealListModel = new MealList();
+    var firstMeal = new Meal();
+    firstMeal.set('name', "Meal 1");
+    mealListModel.add(firstMeal);
+
+    dayCollection.add(new Day({name: "Monday", meals: mealListModel, active: true}));
+    dayCollection.add(new Day({name: "Tuesday", meals: new MealList()}));
+    dayCollection.add(new Day({name: "Wednesday", meals: new MealList()}));
+    dayCollection.add(new Day({name: "Thursday", meals: new MealList()}));
+    dayCollection.add(new Day({name: "Friday", meals: new MealList()}));
+
+    return diet;
+}
+
 var setupApp = function () {
     var dietId = url('?id');
-
-    App.days = new DayCollection();
-    var daysCollection = App.days;
-    var mealListModel = new MealList();
 
     App.daysPanelView = undefined;
 
     if (dietId != null) {
-        Search.Load(dietId, daysCollection, function () {
-            App.daysPanelView = prepareView(daysCollection)
+        Search.Load(dietId, function (diet) {
+            App.diet = diet;
+            App.daysPanelView = prepareView(diet.get('days'))
         });
     } else {
-        var firstMeal = new Meal();
-        firstMeal.set('name', "Meal 1");
-        mealListModel.add(firstMeal);
-
-        daysCollection.add(new Day({name: "Monday", meals: mealListModel, active: true}));
-        daysCollection.add(new Day({name: "Tuesday", meals: new MealList()}));
-        daysCollection.add(new Day({name: "Wednesday", meals: new MealList()}));
-        daysCollection.add(new Day({name: "Thursday", meals: new MealList()}));
-        daysCollection.add(new Day({name: "Friday", meals: new MealList()}));
-        App.daysPanelView = prepareView(daysCollection)
+        App.diet = createEmptyDiet();
+        App.daysPanelView = prepareView(App.diet.get('days'))
     }
 
     var caloricIntakeView = new CaloricIntakeView();
@@ -58,7 +66,7 @@ var setupApp = function () {
     }
 
     function saveDiet() {
-        Search.Save(App.days, function onSuccess(data) {
+        Search.Save(App.diet, function onSuccess(data) {
             var dietUrl = window.location.href.split('?')[0] + '?id=' + data['_id'];
             window.location = dietUrl;
         });
