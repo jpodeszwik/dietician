@@ -29,10 +29,6 @@ function createNewDay(name, active) {
 function createEmptyDiet() {
     var dayCollection = new DayCollection();
     dayCollection.add(createNewDay("Monday", true));
-    dayCollection.add(createNewDay("Tuesday", false));
-    dayCollection.add(createNewDay("Wednesday", false));
-    dayCollection.add(createNewDay("Thursday", false));
-    dayCollection.add(createNewDay("Friday", false));
 
     return new Diet({days: dayCollection, caloricIntake: new CaloricIntakeModel()});
 }

@@ -21,8 +21,26 @@ var DayCollectionView = Marionette.CollectionView.extend({
     tagName: 'ul',
     className: 'nav nav-tabs',
     childView: DayView,
+
+    ui: {
+        "addDayButton": "button.add-day"
+    },
+
+    events: {
+        'click @ui.addDayButton': 'addDay'
+    },
     initialize: function () {
         this.collection.on('change', this.render, this);
+    },
+
+    addDay: function () {
+        var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        this.collection.add(createNewDay(days[this.collection.size() % 7], false));
+    },
+
+    onRender: function () {
+        this.$el.find('.add-day').remove();
+        this.$el.append('<button type="button" class="btn btn-success add-day"><span class="glyphicon glyphicon-plus"></span>Add Day</button>');
     }
 });
 
