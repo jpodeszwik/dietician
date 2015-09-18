@@ -35,7 +35,9 @@ var DayCollectionView = Marionette.CollectionView.extend({
 
     addDay: function () {
         var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-        this.collection.add(createNewDay(days[this.collection.size() % 7], false));
+        var newDay = createNewDay(days[this.collection.size() % 7], false);
+        this.collection.add(newDay);
+        this.collection.switchTo(newDay);
     },
 
     onRender: function () {
