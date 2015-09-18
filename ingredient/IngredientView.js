@@ -29,36 +29,36 @@ $(function () {
     });
 });
 
-var ProductView = Marionette.ItemView.extend({
-    template: 'product/ProductView.html',
+var IngredientView = Marionette.ItemView.extend({
+    template: 'ingredient/IngredientView.html',
     tagName: 'tr',
 
     events: {
-        "change input.product_weight": "inputChanged",
-        'click button.delete_product': 'remove'
+        "change input.ingredient-weight": "inputChanged",
+        'click button.delete-ingredient': 'remove'
     },
 
     initialize: function () {
-        _.bindAll(this, 'render', 'productChanged', 'inputChanged', 'effectiveValue', 'unrender', 'remove');
+        _.bindAll(this, 'render', 'ingredientChanged', 'inputChanged', 'effectiveValue', 'unrender', 'remove');
         this.model.bind('change', this.render);
         this.model.bind('remove', this.unrender);
     },
 
-    serializeData: function() {
+    serializeData: function () {
         return {
             weight: this.model.get('weight'), proteins: this.effectiveValue('proteins'),
             carbohydrates: this.effectiveValue('carbohydrates'),
             fats: this.effectiveValue('fats'),
-            nutritive_value: this.effectiveValue('nutritive_value')
+            nutritionValue: this.effectiveValue('nutritionValue')
         }
     },
 
     onRender: function () {
         var title;
-        if (this.model.get('product_name') != '') {
-            title = this.model.get('product_name');
+        if (this.model.get('ingredientName') != '') {
+            title = this.model.get('ingredientName');
         } else {
-            title = 'Search for product...';
+            title = 'Search for ingredient...';
         }
 
         $('.selectpicker', this.el)
@@ -85,33 +85,37 @@ var ProductView = Marionette.ItemView.extend({
                 preprocessData: function (data) {
                     var hits = data["hits"]["hits"];
 
-                    var foundProducts = [];
+                    var foundIngredients = [];
                     hits.forEach(function (hit) {
-                        var productName = hit["_source"]["product_name"];
-                        foundProducts.push(
+                        var ingredientName = hit["_source"]["product_name"];
+                        foundIngredients.push(
                             {
-                                'value': productName,
-                                'text': productName,
+                                'value': ingredientName,
+                                'text': ingredientName,
                                 'disable': false
                             }
                         );
                     });
 
-                    return foundProducts;
+                    return foundIngredients;
                 },
                 preserveSelected: false
             });
 
-        $('.selectpicker', this.el).change(this.productChanged);
+        $('.selectpicker', this.el).change(this.ingredientChanged);
 
         return this;
     },
 
-    productChanged: function () {
+    ingredientChanged: function () {
         var selectedText = $('.selectpicker', this.el).find("option:selected").text();
-        var selectedProduct = products.getProduct(selectedText);
-        if (selectedProduct != null) {
-            this.model.set(selectedProduct);
+
+        var selectedIngredient = products.getProduct(selectedText);
+        selectedIngredient["ingredientName"] = selectedIngredient["product_name"];
+        selectedIngredient["nutritionValue"] = selectedIngredient["nutritive_value"];
+
+        if (selectedIngredient != null) {
+            this.model.set(selectedIngredient);
             if (this.model.get('weight') == 0) {
                 this.model.set('weight', 100);
             }
@@ -131,13 +135,13 @@ var ProductView = Marionette.ItemView.extend({
         this.model.set('weight', value);
     },
 
-    effectiveValue: function (param_name) {
-        return this.model.effectiveValue(param_name).toFixed(2);
+    effectiveValue: function (paramName) {
+        return this.model.effectiveValue(paramName).toFixed(2);
     }
 });
 
 var ProductListView = Marionette.ItemView.extend({
-    template: 'product/ProductListView.html',
+    template: 'ingredient/ProductListView.html',
     tagName: 'table',
     className: 'table',
 
@@ -153,7 +157,7 @@ var ProductListView = Marionette.ItemView.extend({
             proteinsSum: this.summaryValue("proteins"),
             carbohydratesSum: this.summaryValue("carbohydrates"),
             fatsSum: this.summaryValue("fats"),
-            nutritiveValueSum: this.summaryValue("nutritive_value")
+            nutritiveValueSum: this.summaryValue("nutritionValue")
         }
     },
 
@@ -166,7 +170,7 @@ var ProductListView = Marionette.ItemView.extend({
         return this;
     },
     appendProduct: function (product) {
-        var productView = new ProductView({
+        var productView = new IngredientView({
             model: product
         });
 
@@ -184,7 +188,7 @@ var ProductListView = Marionette.ItemView.extend({
         $("td.proteins_sum", this.el).text(this.summaryValue("proteins"));
         $("td.carbohydrates_sum", this.el).text(this.summaryValue("carbohydrates"));
         $("td.fats_sum", this.el).text(this.summaryValue("fats"));
-        $("td.nutritive_value_sum", this.el).text(this.summaryValue("nutritive_value"));
+        $("td.nutritive_value_sum", this.el).text(this.summaryValue("nutritionValue"));
     },
 
     summaryValue: function (param_name) {

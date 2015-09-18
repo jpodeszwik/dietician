@@ -1,10 +1,10 @@
-var Product = Backbone.Model.extend({
+var Ingredient = Backbone.Model.extend({
     defaults: {
-        product_name: '',
+        ingredientName: '',
         proteins: 0,
         carbohydrates: 0,
         fats: 0,
-        nutritive_value: 0,
+        nutritionValue: 0,
         weight: 0
     },
 
@@ -14,7 +14,7 @@ var Product = Backbone.Model.extend({
 });
 
 var ProductList = Backbone.Collection.extend({
-    model: Product,
+    model: Ingredient,
 
     summaryValue: function (name) {
         var mapped = _.map(this.models, function (product) {

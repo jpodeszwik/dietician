@@ -37,7 +37,7 @@ var MealView = Marionette.ItemView.extend({
     },
 
     addProduct: function () {
-        this.model.get('productList').add(new Product());
+        this.model.get('productList').add(new Ingredient());
     }
 
 });
@@ -54,7 +54,7 @@ var MealListView = Marionette.ItemView.extend({
             proteinsSum: this.summaryValue("proteins"),
             carbohydratesSum: this.summaryValue("carbohydrates"),
             fatsSum: this.summaryValue("fats"),
-            nutritiveValueSum: this.summaryValue("nutritive_value")
+            nutritiveValueSum: this.summaryValue("nutritionValue")
         }
     },
 
@@ -90,7 +90,7 @@ var MealListView = Marionette.ItemView.extend({
         $("td.proteins_sum", "div.meals_summary", this.el).text(this.summaryValue("proteins"));
         $("td.carbohydrates_sum", "div.meals_summary", this.el).text(this.summaryValue("carbohydrates"));
         $("td.fats_sum", "div.meals_summary", this.el).text(this.summaryValue("fats"));
-        $("td.nutritive_value_sum", "div.meals_summary", this.el).text(this.summaryValue("nutritive_value"));
+        $("td.nutritive_value_sum", "div.meals_summary", this.el).text(this.summaryValue("nutritionValue"));
     },
 
     summaryValue: function (name) {
