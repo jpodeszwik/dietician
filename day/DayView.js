@@ -39,8 +39,8 @@ var DayCollectionView = Marionette.CollectionView.extend({
     },
 
     onRender: function () {
-        this.$el.find('.add-day').remove();
-        this.$el.append('<button type="button" class="btn btn-success add-day"><span class="glyphicon glyphicon-plus"></span>Add Day</button>');
+        this.$el.find('li.add-day').remove();
+        this.$el.prepend('<li class="add-day"><button type="button" class="btn btn-link add-day"><span class="glyphicon glyphicon-plus"></span>Add Day</button></li>');
     }
 });
 
