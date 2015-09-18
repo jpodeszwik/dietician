@@ -54,7 +54,7 @@ var MealListView = Marionette.ItemView.extend({
             proteinsSum: this.summaryValue("proteins"),
             carbohydratesSum: this.summaryValue("carbohydrates"),
             fatsSum: this.summaryValue("fats"),
-            nutritiveValueSum: this.summaryValue("nutritionValue")
+            nutritionValueSum: this.summaryValue("nutritionValue")
         }
     },
 
@@ -87,10 +87,10 @@ var MealListView = Marionette.ItemView.extend({
     },
 
     updateSummaries: function () {
-        $("td.proteins_sum", "div.meals_summary", this.el).text(this.summaryValue("proteins"));
-        $("td.carbohydrates_sum", "div.meals_summary", this.el).text(this.summaryValue("carbohydrates"));
-        $("td.fats_sum", "div.meals_summary", this.el).text(this.summaryValue("fats"));
-        $("td.nutritive_value_sum", "div.meals_summary", this.el).text(this.summaryValue("nutritionValue"));
+        $("td.proteins-sum", "div.meals-summary", this.el).text(this.summaryValue("proteins"));
+        $("td.carbohydrates-sum", "div.meals-summary", this.el).text(this.summaryValue("carbohydrates"));
+        $("td.fats-sum", "div.meals-summary", this.el).text(this.summaryValue("fats"));
+        $("td.nutrition-value-sum", "div.meals-summary", this.el).text(this.summaryValue("nutritionValue"));
     },
 
     summaryValue: function (name) {

@@ -161,7 +161,7 @@ var IngredientListView = Marionette.ItemView.extend({
             proteinsSum: this.summaryValue("proteins"),
             carbohydratesSum: this.summaryValue("carbohydrates"),
             fatsSum: this.summaryValue("fats"),
-            nutritiveValueSum: this.summaryValue("nutritionValue")
+            nutritionValueSum: this.summaryValue("nutritionValue")
         }
     },
 
