@@ -1,27 +1,27 @@
 var Meal = Backbone.Model.extend({
     defaults: {
         name: 'MealX',
-        productList: null
+        ingredientList: null
     },
 
     initialize: function () {
-        if (this.get('productList') == null) {
-            this.set('productList', new ProductList());
+        if (this.get('ingredientList') == null) {
+            this.set('ingredientList', new IngredientList());
         }
 
-        var productList = this.get('productList');
+        var ingredientList = this.get('ingredientList');
 
-        this.listenTo(productList, 'change', function () {
+        this.listenTo(ingredientList, 'change', function () {
             this.trigger('change', this);
         });
 
-        this.listenTo(productList, 'remove', function () {
+        this.listenTo(ingredientList, 'remove', function () {
             this.trigger('change', this);
         });
     },
 
     summaryValue: function (name) {
-        return this.get('productList').summaryValue(name);
+        return this.get('ingredientList').summaryValue(name);
     }
 });
 

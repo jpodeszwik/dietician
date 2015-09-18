@@ -111,6 +111,10 @@ var IngredientView = Marionette.ItemView.extend({
         var selectedText = $('.selectpicker', this.el).find("option:selected").text();
 
         var selectedIngredient = products.getProduct(selectedText);
+        if (selectedIngredient == undefined) {
+            return;
+        }
+
         selectedIngredient["ingredientName"] = selectedIngredient["product_name"];
         selectedIngredient["nutritionValue"] = selectedIngredient["nutritive_value"];
 
@@ -140,14 +144,14 @@ var IngredientView = Marionette.ItemView.extend({
     }
 });
 
-var ProductListView = Marionette.ItemView.extend({
-    template: 'ingredient/ProductListView.html',
+var IngredientListView = Marionette.ItemView.extend({
+    template: 'ingredient/IngredientListView.html',
     tagName: 'table',
     className: 'table',
 
     initialize: function () {
-        _.bindAll(this, 'render', 'appendProduct', 'appendNewProduct', 'summaryValue', 'updateSum');
-        this.model.bind('add', this.appendNewProduct);
+        _.bindAll(this, 'render', 'appendIngredient', 'appendNewIngredient', 'summaryValue', 'updateSum');
+        this.model.bind('add', this.appendNewIngredient);
         this.model.bind('change', this.updateSum);
         this.model.bind('remove', this.updateSum);
     },
@@ -163,35 +167,35 @@ var ProductListView = Marionette.ItemView.extend({
 
     onRender: function () {
         var self = this;
-        _(this.model.models).each(function (product) {
-            self.appendProduct(product);
+        _(this.model.models).each(function (ingredient) {
+            self.appendIngredient(ingredient);
         });
 
         return this;
     },
-    appendProduct: function (product) {
-        var productView = new IngredientView({
-            model: product
+    appendIngredient: function (ingredient) {
+        var ingredientView = new IngredientView({
+            model: ingredient
         });
 
-        var $productRow = productView.render().$el;
-        this.$('tbody').append($productRow);
-        return $productRow;
+        var $ingredientRow = ingredientView.render().$el;
+        this.$('tbody').append($ingredientRow);
+        return $ingredientRow;
     },
-    appendNewProduct: function (product) {
-        var $productRow = this.appendProduct(product);
+    appendNewIngredient: function (ingredient) {
+        var $ingredientRow = this.appendIngredient(ingredient);
         setTimeout(function () {
-            $productRow.find('.product-select button').click();
+            $ingredientRow.find('.ingredient-select button').click();
         }, 100);
     },
     updateSum: function () {
-        $("td.proteins_sum", this.el).text(this.summaryValue("proteins"));
-        $("td.carbohydrates_sum", this.el).text(this.summaryValue("carbohydrates"));
-        $("td.fats_sum", this.el).text(this.summaryValue("fats"));
-        $("td.nutritive_value_sum", this.el).text(this.summaryValue("nutritionValue"));
+        $("td.proteins-sum", this.el).text(this.summaryValue("proteins"));
+        $("td.carbohydrates-sum", this.el).text(this.summaryValue("carbohydrates"));
+        $("td.fats-sum", this.el).text(this.summaryValue("fats"));
+        $("td.nutrition-value-sum", this.el).text(this.summaryValue("nutritionValue"));
     },
 
-    summaryValue: function (param_name) {
-        return this.model.summaryValue(param_name).toFixed(2);
+    summaryValue: function (paramName) {
+        return this.model.summaryValue(paramName).toFixed(2);
     }
 });

@@ -19,7 +19,7 @@ Search.Load = function (dietId, onDone) {
             _.each(day.meals, function (meal) {
                 var mealModel = new Meal({
                     name: meal.name,
-                    productList: new ProductList(meal.productList)
+                    ingredientList: new IngredientList(meal.ingredientList)
                 });
                 mealsCollection.add(mealModel);
             });

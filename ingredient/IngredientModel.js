@@ -13,12 +13,12 @@ var Ingredient = Backbone.Model.extend({
     }
 });
 
-var ProductList = Backbone.Collection.extend({
+var IngredientList = Backbone.Collection.extend({
     model: Ingredient,
 
     summaryValue: function (name) {
-        var mapped = _.map(this.models, function (product) {
-            return product.effectiveValue(name)
+        var mapped = _.map(this.models, function (ingredient) {
+            return ingredient.effectiveValue(name)
         });
         return _.reduce(mapped, function (memo, num) {
             return memo + num;

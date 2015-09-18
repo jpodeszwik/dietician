@@ -5,16 +5,16 @@ var MealView = Marionette.ItemView.extend({
 
     events: {
         'click button.delete_meal': 'remove',
-        'click button.add_product': 'addProduct'
+        'click button.add-ingredient': 'addIngredient'
     },
 
     initialize: function () {
-        _.bindAll(this, 'render', 'unrender', 'remove', 'addProduct');
+        _.bindAll(this, 'render', 'unrender', 'remove', 'addIngredient');
 
         this.model.bind('remove', this.unrender);
-        this.model.bind('addProduct', this.addProduct);
-        this.productListView = new ProductListView({
-            model: this.model.get('productList')
+        this.model.bind('addIngredient', this.addIngredient);
+        this.ingredientListView = new IngredientListView({
+            model: this.model.get('ingredientList')
         });
     },
 
@@ -24,7 +24,7 @@ var MealView = Marionette.ItemView.extend({
                 this.model.set('name', newValue);
             }, this)
         }, this);
-        $('div.panel-body', this.el).append(this.productListView.render().el);
+        $('div.panel-body', this.el).append(this.ingredientListView.render().el);
         return this;
     },
 
@@ -36,8 +36,8 @@ var MealView = Marionette.ItemView.extend({
         this.model.destroy();
     },
 
-    addProduct: function () {
-        this.model.get('productList').add(new Ingredient());
+    addIngredient: function () {
+        this.model.get('ingredientList').add(new Ingredient());
     }
 
 });
