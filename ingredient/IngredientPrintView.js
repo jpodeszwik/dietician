@@ -26,6 +26,9 @@ var IngredientListPrintView = Marionette.ItemView.extend({
     template: 'ingredient/IngredientListPrintView.html',
     tagName: 'table',
     className: 'table',
+    attributes: {
+        'border': 1
+    },
 
     initialize: function () {
         _.bindAll(this, 'appendIngredient');
