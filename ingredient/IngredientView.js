@@ -46,7 +46,8 @@ var IngredientView = Marionette.ItemView.extend({
 
     serializeData: function () {
         return {
-            weight: this.model.get('weight'), proteins: this.effectiveValue('proteins'),
+            weight: this.model.get('weight'),
+            proteins: this.effectiveValue('proteins'),
             carbohydrates: this.effectiveValue('carbohydrates'),
             fats: this.effectiveValue('fats'),
             nutritionValue: this.effectiveValue('nutritionValue')

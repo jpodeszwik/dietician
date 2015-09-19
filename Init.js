@@ -65,5 +65,13 @@ var setupApp = function () {
     }
 
     $('#save_diet').click(saveDiet);
-
+    $('.print-day').click(function () {
+        var mealListModel = App.diet.get('days').getActive().get('meals');
+        var mealListPrintView = new MealListPrintView(mealListModel);
+        var htmlToPrint = mealListPrintView.render().$el.html();
+        var w = window.open();
+        w.document.write(htmlToPrint);
+        w.print();
+        w.close();
+    })
 };
