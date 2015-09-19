@@ -1,43 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" href="lib/bootstrap.min.css">
-    <link rel="stylesheet" href="lib/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="container">
-    <div class="panel panel-default meals-print-panel">
-        <div class="panel-body">
-            <div class="panel-group meal-list"></div>
-        </div>
-        <div class="panel-footer">
-            <div class="meals-summary">
-                <table class="table" border="1">
-                    <caption>Summary</caption>
-                    <thead>
-                    <tr>
-                        <th>Proteins</th>
-                        <th>Carbohydrates</th>
-                        <th>Fats</th>
-                        <th>Nutrition value</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="proteins-sum">{{proteinsSum}}</td>
-                        <td class="carbohydrates-sum">{{carbohydratesSum}}</td>
-                        <td class="fats-sum">{{fatsSum}}</td>
-                        <td class="nutrition-value-sum">{{nutritionValueSum}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="panel panel-default meals-print-panel">
+    <div class="panel-group meal-list"></div>
+    <div class="meals-summary">
+        <table class="table" border="1">
+            <caption>Summary</caption>
+            <thead>
+            <tr>
+                <th>Proteins</th>
+                <th>Carbohydrates</th>
+                <th>Fats</th>
+                <th>Nutrition value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="proteins-sum">{{proteinsSum}}</td>
+                <td class="carbohydrates-sum">{{carbohydratesSum}}</td>
+                <td class="fats-sum">{{fatsSum}}</td>
+                <td class="nutrition-value-sum">{{nutritionValueSum}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
-</body>
-</html>
-
