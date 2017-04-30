@@ -49,7 +49,7 @@ function listIngredients() {
     index: 'products',
     type: 'product',
     size: 1000,
-    query: { match_all: {} }
+    body: {query: { match_all: {}}}
   }).then(function(res) {
     hits = res['hits']['hits'];
     var ingredients = [];
