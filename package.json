@@ -4,6 +4,7 @@
   "description": "Javascript site that helps in diet planning. It counts calories and macroelements for meals. It also helps with calculating caloric intake.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
