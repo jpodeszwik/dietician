@@ -19,12 +19,9 @@ var products = new Products();
 
 
 $(function () {
-    $.get('http://zbiki.ddns.net/products/_search?size=1000', function onSuccess(data) {
-        var hits = data["hits"]["hits"];
-
-        hits.forEach(function (hit) {
-            var product = hit["_source"];
-            products.addProduct(product);
+    $.get('/api/ingredients', function onSuccess(data) {
+        data.forEach(function (ingredient) {
+            products.addProduct(ingredient);
         });
     });
 });
