@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 
-var {getDiet, createDiet, listIngredients} = require('./search.js')
+var {getDiet, createDiet, listIngredients, searchIngredients} = require('./search.js')
 
 var api = express();
 api.use(bodyParser.json());
@@ -24,6 +24,14 @@ api.post('/diets', function(req, res) {
 
 api.get('/ingredients', function(req, res) {
   listIngredients().then(function (ingredients) {
+    res.send(ingredients);
+  }, function (err) {
+    res.status(500).send(err);
+  });
+});
+
+api.post('/ingredients/_search', function(req, res) {
+  searchIngredients(req.body.phrase).then(function (ingredients) {
     res.send(ingredients);
   }, function (err) {
     res.status(500).send(err);

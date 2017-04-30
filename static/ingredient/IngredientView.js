@@ -65,27 +65,21 @@ var IngredientView = Marionette.ItemView.extend({
             })
             .ajaxSelectPicker({
                 ajax: {
-                    url: 'http://zbiki.ddns.net/products/_search',
+                    url: '/api/ingredients/_search',
                     dataType: 'json',
+                    contentType:"application/json; charset=utf-8",
                     data: function () {
-                        return {
-                            "query": {
-                                "match": {
-                                    "product_name": "{{{q}}}"
-                                }
-                            }
-                        };
+                        return { "phrase": "{{{q}}}" };
                     }
                 },
                 locale: {
                     emptyTitle: title
                 },
-                preprocessData: function (data) {
-                    var hits = data["hits"]["hits"];
+                preprocessData: function (ingredients) {
 
                     var foundIngredients = [];
-                    hits.forEach(function (hit) {
-                        var ingredientName = hit["_source"]["product_name"];
+                    ingredients.forEach(function (ingredient) {
+                        var ingredientName = ingredient["product_name"];
                         foundIngredients.push(
                             {
                                 'value': ingredientName,

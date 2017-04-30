@@ -37,4 +37,19 @@ function listIngredients() {
   });
 }
 
-module.exports = {getDiet, createDiet, listIngredients};
+function searchIngredients(phrase) {
+  return client.search({
+    index: 'products',
+    type: 'product',
+    body: { query: { match: { product_name: phrase }}},
+  }).then(function(res) {
+    hits = res['hits']['hits'];
+    var ingredients = [];
+    for (var i = 0; i < hits.length; i++) {
+      ingredients.push(hits[i]['_source']);
+    }
+    return ingredients;
+  });
+}
+
+module.exports = {getDiet, createDiet, listIngredients, searchIngredients};
