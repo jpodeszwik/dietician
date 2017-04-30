@@ -1,0 +1,22 @@
+{
+  "name": "dietician",
+  "version": "1.0.0",
+  "description": "Javascript site that helps in diet planning. It counts calories and macroelements for meals. It also helps with calculating caloric intake.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpodeszwik/dietician.git"
+  },
+  "author": "Jakub Podeszwik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jpodeszwik/dietician/issues"
+  },
+  "homepage": "https://github.com/jpodeszwik/dietician#readme",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
