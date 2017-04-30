@@ -1,6 +1,29 @@
 var elasticsearch = require('elasticsearch');
+var productsSettings = require('./products');
+var dietsSettings = require('./diets');
+
 var client = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH
+});
+
+client.indices.exists({index: 'products'}).then(function(exists) {
+  if (false === exists) {
+    console.log('creating products index');
+    client.indices.create({
+      index: 'products',
+      body: productsSettings
+    });
+  }
+});
+
+client.indices.exists({index: 'diets'}).then(function(exists) {
+  if (false === exists) {
+    console.log('creating diets index');
+    client.indices.create({
+      index: 'diets',
+      body: dietsSettings
+    });
+  }
 });
 
 function getDiet(id) {
