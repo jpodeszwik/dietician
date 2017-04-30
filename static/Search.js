@@ -3,11 +3,18 @@ function Search() {
 
 Search.Save = function (diet, onSuccess) {
     var document = diet.toJSON();
-    $.post('http://zbiki.ddns.net/diets/diet', JSON.stringify(document), onSuccess);
+    $.ajax({
+      url:'api/diets',
+      type:"POST",
+      data: JSON.stringify(document),
+      contentType:"application/json; charset=utf-8",
+      dataType:"json",
+      success: onSuccess
+    });
 };
 
 Search.Load = function (dietId, onDone) {
-    $.get('http://zbiki.ddns.net/diets/diet/' + dietId + '/_source', function onSuccess(data) {
+    $.get(`api/diets/${dietId}`, function onSuccess(data) {
         var diet = new Diet();
         var daysCollection = new DayCollection();
         diet.set('days', daysCollection);

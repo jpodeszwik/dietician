@@ -59,7 +59,7 @@ var setupApp = function () {
 
     function saveDiet() {
         Search.Save(App.diet, function onSuccess(data) {
-            var dietUrl = window.location.href.split('?')[0] + '?id=' + data['_id'];
+            var dietUrl = window.location.href.split('?')[0] + '?id=' + data['id'];
             window.location = dietUrl;
         });
     }
