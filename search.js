@@ -6,7 +6,7 @@ var client = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH
 });
 
-client.indices.exists({index: 'products'}).then(function(exists) {
+client.indices.exists({ index: 'products' }).then(function (exists) {
   if (false === exists) {
     console.log('creating products index');
     client.indices.create({
@@ -16,7 +16,7 @@ client.indices.exists({index: 'products'}).then(function(exists) {
   }
 });
 
-client.indices.exists({index: 'diets'}).then(function(exists) {
+client.indices.exists({ index: 'diets' }).then(function (exists) {
   if (false === exists) {
     console.log('creating diets index');
     client.indices.create({
@@ -39,7 +39,7 @@ function createDiet(diet) {
     index: 'diets',
     type: 'diet',
     body: diet
-  }).then(function(res) {
+  }).then(function (res) {
     return res['_id'];
   });
 };
@@ -49,8 +49,8 @@ function listIngredients() {
     index: 'products',
     type: 'product',
     size: 1000,
-    body: {query: { match_all: {}}}
-  }).then(function(res) {
+    body: { query: { match_all: {} } }
+  }).then(function (res) {
     hits = res['hits']['hits'];
     var ingredients = [];
     for (var i = 0; i < hits.length; i++) {
@@ -64,8 +64,8 @@ function searchIngredients(phrase) {
   return client.search({
     index: 'products',
     type: 'product',
-    body: { query: { match: { product_name: phrase }}},
-  }).then(function(res) {
+    body: { query: { match: { product_name: phrase } } },
+  }).then(function (res) {
     hits = res['hits']['hits'];
     var ingredients = [];
     for (var i = 0; i < hits.length; i++) {
@@ -75,4 +75,4 @@ function searchIngredients(phrase) {
   });
 }
 
-module.exports = {getDiet, createDiet, listIngredients, searchIngredients};
+module.exports = { getDiet, createDiet, listIngredients, searchIngredients };
