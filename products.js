@@ -1,4 +1,4 @@
-var productsSettings = {
+const productsSettings = {
   settings: {
     analysis: {
       analyzer: {
@@ -7,49 +7,49 @@ var productsSettings = {
           tokenizer: 'whitespace',
           filter: [
             'lowercase',
-            'my_edge_ngram_filter'
-          ]
-        }
+            'my_edge_ngram_filter',
+          ],
+        },
       },
       filter: {
-		    my_edge_ngram_filter : {
-			    type: 'edgeNGram',
-			    min_gram: 1,
-			    max_gram: 20
-		    }
-      }
+        my_edge_ngram_filter: {
+          type: 'edgeNGram',
+          min_gram: 1,
+          max_gram: 20,
+        },
+      },
     },
     index: {
       number_of_shards: 1,
-      number_of_replicas: 1
-    }
+      number_of_replicas: 1,
+    },
   },
   mappings: {
     product: {
       properties: {
         carbohydrates: {
-          type: 'double'
+          type: 'double',
         },
         cellulose: {
-          type: 'long'
+          type: 'long',
         },
         fats: {
-          type: 'double'
+          type: 'double',
         },
         nutritive_value: {
-          type: 'double'
+          type: 'double',
         },
         product_name: {
           type: 'text',
           analyzer: 'my_edge_ngram_analyzer',
-          search_analyzer: 'standard'
+          search_analyzer: 'standard',
         },
         proteins: {
-          type: 'double'
-        }
-      }
-    }
-  }
-}
+          type: 'double',
+        },
+      },
+    },
+  },
+};
 
-module.exports = productsSettings
+module.exports = productsSettings;

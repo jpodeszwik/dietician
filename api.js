@@ -1,39 +1,41 @@
-var express = require('express');
-var bodyParser = require('body-parser');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-var { getDiet, createDiet, listIngredients, searchIngredients } = require('./search.js')
+const {
+  getDiet, createDiet, listIngredients, searchIngredients,
+} = require('./search.js');
 
-var api = express();
+const api = express();
 api.use(bodyParser.json());
 
-api.get('/diets/:id', function (req, res) {
-  getDiet(req.params.id).then(function (source) {
+api.get('/diets/:id', (req, res) => {
+  getDiet(req.params.id).then((source) => {
     res.send(source);
-  }, function (err) {
+  }, (err) => {
     res.status(500).send(err);
   });
 });
 
-api.post('/diets', function (req, res) {
-  createDiet(req.body).then(function (id) {
+api.post('/diets', (req, res) => {
+  createDiet(req.body).then((id) => {
     res.send({ id });
-  }, function (err) {
+  }, (err) => {
     res.status(500).send(err);
   });
 });
 
-api.get('/ingredients', function (req, res) {
-  listIngredients().then(function (ingredients) {
+api.get('/ingredients', (req, res) => {
+  listIngredients().then((ingredients) => {
     res.send(ingredients);
-  }, function (err) {
+  }, (err) => {
     res.status(500).send(err);
   });
 });
 
-api.post('/ingredients/_search', function (req, res) {
-  searchIngredients(req.body.phrase).then(function (ingredients) {
+api.post('/ingredients/_search', (req, res) => {
+  searchIngredients(req.body.phrase).then((ingredients) => {
     res.send(ingredients);
-  }, function (err) {
+  }, (err) => {
     res.status(500).send(err);
   });
 });

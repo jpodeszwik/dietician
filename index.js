@@ -1,9 +1,9 @@
-var express = require('express');
+const express = require('express');
 
-var api = require('./api');
+const api = require('./api');
 
-var app = express();
-app.use(express.static('static'))
+const app = express();
+app.use(express.static('static'));
 
 app.use('/api', api);
 app.listen(3000);
