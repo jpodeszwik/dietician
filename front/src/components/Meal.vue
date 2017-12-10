@@ -1,25 +1,25 @@
 <template>
   <b-card :header="meal.name">
     <b-table striped hover :items="meal.ingredients" :fields="fields" foot-clone>
-      <template slot="name" scope="row">
+      <template slot="name" slot-scope="row">
         <livesearch :item="row.item"></livesearch>
       </template>
-      <template slot="weight" scope="row">
+      <template slot="weight" slot-scope="row">
         <b-form-input v-model="row.item.weight"  type="text"></b-form-input>
       </template>
-      <template slot="proteins" scope="row">
+      <template slot="proteins" slot-scope="row">
         {{ weightedValue(row.item, 'proteins') }}
       </template>
-      <template slot="carbohydrates" scope="row">
+      <template slot="carbohydrates" slot-scope="row">
         {{ weightedValue(row.item, 'carbohydrates') }}
       </template>
-      <template slot="fats" scope="row">
+      <template slot="fats" slot-scope="row">
         {{ weightedValue(row.item, 'fats') }}
       </template>
-      <template slot="nutritiveValue" scope="row">
+      <template slot="nutritiveValue" slot-scope="row">
         {{ weightedValue(row.item, 'nutritiveValue') }}
       </template>
-      <template slot="delete" scope="row">
+      <template slot="delete" slot-scope="row">
         <b-button size="xs" variant="danger" @click="removeItem(row.index)">Delete</b-button>
       </template>
 
