@@ -1,10 +1,9 @@
 <template>
   <div id="app">
     <header>
-      <span>Vue.js PWA</span>
+      <span>Dietician</span>
     </header>
     <main>
-      <img src="./assets/logo.png" alt="Vue.js PWA">
       <router-view></router-view>
     </main>
   </div>
@@ -50,5 +49,6 @@ header span {
   font-weight: 400;
   box-sizing: border-box;
   padding-top: 16px;
+  text-align: center;
 }
 </style>
