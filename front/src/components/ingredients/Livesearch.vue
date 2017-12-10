@@ -1,9 +1,10 @@
 <template>
   <v-autocomplete
-    min-len=1
-    wait=200
+    :min-len="1"
+    :wait="200"
+    :auto-select-one-item="false"
     :items="items"
-    v-model="item"
+    :value="item"
     :get-label="getLabel"
     :component-item="template"
     @update-items="updateItems"
