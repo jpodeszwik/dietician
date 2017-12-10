@@ -6,9 +6,13 @@ import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
+import Autocomplete from 'v-autocomplete';
+import 'v-autocomplete/dist/v-autocomplete.css';
+
 import App from './App';
 import router from './router';
 
+Vue.use(Autocomplete);
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
 

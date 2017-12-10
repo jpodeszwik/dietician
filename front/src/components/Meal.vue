@@ -1,6 +1,9 @@
 <template>
   <b-card :header="meal.name">
     <b-table striped hover :items="meal.ingredients" :fields="fields" foot-clone>
+      <template slot="name" scope="row">
+        <livesearch :item="row.item"></livesearch>
+      </template>
       <template slot="weight" scope="row">
         <b-form-input v-model="row.item.weight"  type="text"></b-form-input>
       </template>
@@ -42,6 +45,8 @@
 </template>
 
 <script>
+import Livesearch from './ingredients/Livesearch';
+
 const fields = [
   'name',
   'weight',
@@ -58,6 +63,9 @@ const fields = [
 export default {
   name: 'meal',
   props: ['meal'],
+  components: {
+    Livesearch,
+  },
   data() {
     return {
       fields,
