@@ -29,16 +29,16 @@
       <template slot="FOOT_weight" slot-scope="data">
       </template>
       <template slot="FOOT_proteins" slot-scope="data">
-        {{ sumField('proteins') }}
+        {{ sum.proteins }}
       </template>
       <template slot="FOOT_carbohydrates" slot-scope="data">
-        {{ sumField('carbohydrates') }}
+        {{ sum.carbohydrates }}
       </template>
       <template slot="FOOT_fats" slot-scope="data">
-        {{ sumField('fats') }}
+        {{ sum.fats }}
       </template>
       <template slot="FOOT_nutritiveValue" slot-scope="data">
-        {{ sumField('nutritiveValue') }}
+        {{ sum.nutritiveValue }}
       </template>
     </b-table>
   </b-card>
@@ -71,9 +71,19 @@ export default {
       fields,
     };
   },
+  computed: {
+    sum() {
+      return {
+        fats: this.sumField('fats'),
+        carbohydrates: this.sumField('carbohydrates'),
+        proteins: this.sumField('proteins'),
+        nutritiveValue: this.sumField('nutritiveValue'),
+      };
+    },
+  },
   methods: {
     setItem(index, item) {
-      console.log(`${index}: ${item.name}`);
+      this.$emit('ingredient-selected', { index, ingredient: item });
     },
     removeItem(item) {
       console.log(this.meal.ingredients[item].weight);

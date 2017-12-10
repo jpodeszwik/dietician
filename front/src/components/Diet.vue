@@ -4,6 +4,7 @@
       v-for="(meal, index) in meals"
       :key="index"
       :meal="meal"
+      @ingredient-selected="ingredientSelected(index, $event)"
     ></meal>
   </b-container>
 </template>
@@ -57,6 +58,11 @@ export default {
     return {
       meals,
     };
+  },
+  methods: {
+    ingredientSelected(index, item) {
+      this.meals[index][item.index] = item.ingredient;
+    },
   },
 };
 </script>
