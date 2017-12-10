@@ -11,7 +11,7 @@ const Ingredient = mongoose.model('Ingredient', {
 
 const listIngredients = () => Ingredient.find({});
 
-const searchIngredients = phrase => Ingredient.find({ name: new RegExp(`.*${phrase}.*`) });
+const searchIngredients = phrase => Ingredient.find({ name: new RegExp(`.*${phrase}.*`, 'i') });
 
 const addIngredient = ingredient => new Ingredient(ingredient).save();
 

@@ -2,7 +2,7 @@
   <b-card :header="meal.name">
     <b-table striped hover :items="meal.ingredients" :fields="fields" foot-clone>
       <template slot="name" slot-scope="row">
-        <livesearch :item="row.item"></livesearch>
+        <livesearch @item-selected="setItem(row.index, $event)" :item="row.item"></livesearch>
       </template>
       <template slot="weight" slot-scope="row">
         <b-form-input v-model="row.item.weight"  type="text"></b-form-input>
@@ -72,6 +72,9 @@ export default {
     };
   },
   methods: {
+    setItem(index, item) {
+      console.log(`${index}: ${item.name}`);
+    },
     removeItem(item) {
       console.log(this.meal.ingredients[item].weight);
     },

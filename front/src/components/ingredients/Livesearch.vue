@@ -1,6 +1,14 @@
 <template>
-  <v-autocomplete min-len="1" :items="items" v-model="item" :get-label="getLabel" :component-item='template' @update-items="updateItems">
-  </v-autocomplete>
+  <v-autocomplete
+    min-len=1
+    wait=200
+    :items="items"
+    v-model="item"
+    :get-label="getLabel"
+    :component-item="template"
+    @update-items="updateItems"
+    @item-selected="itemSelected"
+    />
 </template>
 
 <script>
@@ -16,6 +24,9 @@ export default {
     };
   },
   methods: {
+    itemSelected(item) {
+      this.$emit('item-selected', item);
+    },
     getLabel(item) {
       return item.name;
     },
