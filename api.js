@@ -1,4 +1,6 @@
 const express = require('express');
+const basicAuth = require('express-basic-auth');
+
 const bodyParser = require('body-parser');
 const { listIngredients, searchIngredients, addIngredient } = require('./model/ingredient');
 const { getDiet, addDiet } = require('./model/diet');
@@ -39,7 +41,11 @@ api.post('/ingredients/_search', (req, res) => {
   });
 });
 
-api.post('/ingredients', (req, res) => {
+const authenticationMiddleware = basicAuth({
+  users: { admin: process.env.ADMIN_PASSWORD },
+});
+
+api.post('/ingredients', authenticationMiddleware, (req, res) => {
   addIngredient(req.body).then((ingredient) => {
     res.send(ingredient);
   }).catch((err) => {
