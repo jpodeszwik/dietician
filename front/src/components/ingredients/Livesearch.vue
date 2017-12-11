@@ -1,15 +1,18 @@
 <template>
-  <v-autocomplete
-    :min-len="1"
-    :wait="200"
-    :auto-select-one-item="false"
-    :items="items"
-    :value="item"
-    :get-label="getLabel"
-    :component-item="template"
-    @update-items="updateItems"
-    @item-selected="itemSelected"
-    />
+  <b-list-group>
+    <v-autocomplete
+      :min-len="1"
+      :wait="200"
+      :auto-select-one-item="false"
+      :items="items"
+      :value="item"
+      :get-label="getLabel"
+      :component-item="template"
+      @update-items="updateItems"
+      @item-selected="itemSelected"
+      :input-attrs="attrs"
+      />
+  </b-list-group>
 </template>
 
 <script>
@@ -22,6 +25,7 @@ export default {
     return {
       items: [],
       template: Item,
+      attrs: { class: 'form-control' },
     };
   },
   methods: {

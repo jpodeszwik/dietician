@@ -1,7 +1,7 @@
 <template>
-  <div class="livesearchItem">
-    <span>{{ item.name }}</span>
-  </div>
+  <b-list-group-item class="livesearchItem">
+    {{ item.name }}
+  </b-list-group-item>
 </template>
 
 <script>
@@ -15,6 +15,6 @@ export default {
 <style>
 .livesearchItem {
   position:relative;
-   z-index:1000;
+  z-index:1000;
 }
 </style>
