@@ -2,7 +2,7 @@ const mongoose = require('./mongoose');
 
 const Ingredient = mongoose.model('Ingredient', {
   name: String,
-  type: Number,
+  carbohydrates: Number,
   cellulose: Number,
   fats: Number,
   nutritiveValue: Number,

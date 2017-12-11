@@ -61,7 +61,21 @@ export default {
   },
   methods: {
     ingredientSelected(index, item) {
-      this.meals[index][item.index] = item.ingredient;
+      const ingredient = item.ingredient;
+      if (this.meals[index].ingredients[item.index].name === ingredient.name) {
+        return;
+      }
+
+      const newIngredient = {
+        name: ingredient.name,
+        fats: ingredient.fats,
+        carbohydrates: ingredient.carbohydrates,
+        proteins: ingredient.proteins,
+        nutritiveValue: ingredient.nutritiveValue,
+        weight: this.meals[index].ingredients[item.index].weight,
+      };
+
+      this.meals[index].ingredients.splice(item.index, 1, newIngredient);
     },
   },
 };
