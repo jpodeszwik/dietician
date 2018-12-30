@@ -26,9 +26,11 @@ export class AppComponent {
         new MealIngredient(new Ingredient('2', 'Chicken', 10, 5, 5, 100), 150),
         new MealIngredient(new Ingredient('3', 'Butter', 10, 5, 5, 100), 200),
       ]),
-      new Meal("Meal 3", [
-      ])
     ];
+  }
+
+  removeMeal(index: number) {
+    this.meals.splice(index, 1);
   }
 
   ngOnInit() {

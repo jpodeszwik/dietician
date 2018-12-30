@@ -1,13 +1,12 @@
-.meal-table {
-  /* flex-basis: 100%; */
-  flex-shrink: 0;
-  flex-grow: 1;
+.meal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.meal-container {
+.meal-header-buttons {
   display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  justify-content: space-between;
 }
 
 tr.mat-footer-row {

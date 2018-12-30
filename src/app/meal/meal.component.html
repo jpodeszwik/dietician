@@ -1,5 +1,10 @@
-<mat-toolbar>
-  <span>{{meal.name}}</span>
+<mat-toolbar class="meal-header">
+  <div><span>{{meal.name}}</span></div>
+
+  <div class="meal-header-buttons">
+    <button mat-raised-button color="primary" (click)="addIngredient()">Add ingredient</button>
+    <button mat-raised-button color="warn" (click)="removeMeal()">Remove meal</button>
+  </div>
 </mat-toolbar>
 <table mat-table [dataSource]="meal.ingredients" width="100%">
   <ng-container matColumnDef="name">
@@ -13,29 +18,29 @@
     <th mat-header-cell *matHeaderCellDef> Weight </th>
     <td mat-cell *matCellDef="let ingredient">
       <mat-form-field>
-        <input matInput type="text" [(ngModel)]="ingredient.weight" />
+        <input matInput type="number" [(ngModel)]="ingredient.weight" />
       </mat-form-field>
     </td>
     <td mat-footer-cell *matFooterCellDef> {{meal.totalWeight()}} </td>
   </ng-container>
   <ng-container matColumnDef="proteins">
     <th mat-header-cell *matHeaderCellDef> Proteins </th>
-    <td mat-cell *matCellDef="let ingredient"> {{ingredient.proteins()}} </td>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient?.proteins()}} </td>
     <td mat-footer-cell *matFooterCellDef> {{meal.totalProteins()}} </td>
   </ng-container>
   <ng-container matColumnDef="carbohydrates">
     <th mat-header-cell *matHeaderCellDef> Carbohydrates </th>
-    <td mat-cell *matCellDef="let ingredient"> {{ingredient.carbohydrates()}} </td>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient?.carbohydrates()}} </td>
     <td mat-footer-cell *matFooterCellDef> {{meal.totalCarbohydrates()}} </td>
   </ng-container>
   <ng-container matColumnDef="fats">
     <th mat-header-cell *matHeaderCellDef> Fats </th>
-    <td mat-cell *matCellDef="let ingredient"> {{ingredient.fats()}} </td>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient?.fats()}} </td>
     <td mat-footer-cell *matFooterCellDef> {{meal.totalFats()}} </td>
   </ng-container>
   <ng-container matColumnDef="nutritionValue">
     <th mat-header-cell *matHeaderCellDef> Nutrition value </th>
-    <td mat-cell *matCellDef="let ingredient"> {{ingredient.nutritionValue()}} </td>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient?.nutritionValue()}} </td>
     <td mat-footer-cell *matFooterCellDef> {{meal.totalNutritionValue()}} </td>
   </ng-container>
 

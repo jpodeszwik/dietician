@@ -1,4 +1,4 @@
 <mat-toolbar color="primary"><span>{{title}}</span></mat-toolbar>
 <div class="meals-container">
-  <app-meal *ngFor="let meal of meals" [meal]="meal"></app-meal>
+  <app-meal *ngFor="let meal of meals; let idx = index" [meal]="meal" (remove)="removeMeal(idx)"></app-meal>
 </div>

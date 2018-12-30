@@ -10,18 +10,23 @@ export class MealIngredient {
   }
 
   proteins(): number {
-    return this.ingredient.proteins * this.weight / 100;
+    return this.ingredient ? this.calculateWeighted(this.ingredient.proteins) : 0;
   }
 
   carbohydrates(): number {
-    return this.ingredient.carbohydrates * this.weight / 100;
+    return this.ingredient ? this.calculateWeighted(this.ingredient.carbohydrates) : 0;
   }
 
   fats(): number {
-    return this.ingredient.fats * this.weight / 100;
+    return this.ingredient ? this.calculateWeighted(this.ingredient.fats) : 0;
   }
 
   nutritionValue(): number {
-    return this.ingredient.nutritionValue * this.weight / 100;
+    return this.ingredient ? this.calculateWeighted(this.ingredient.nutritionValue) : 0;
+  }
+
+  private calculateWeighted(val: number) {
+    const value = val;
+    return value * this.weight / 100;
   }
 }

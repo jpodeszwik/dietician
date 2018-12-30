@@ -10,19 +10,19 @@ export class Meal {
   }
 
   totalProteins(): number {
-    return this.sumBy(i => i.proteins());
+    return this.sumBy(i => i.proteins() || 0);
   }
 
   totalCarbohydrates(): number {
-    return this.sumBy(i => i.carbohydrates());
+    return this.sumBy(i => i.carbohydrates() || 0);
   }
 
   totalFats(): number {
-    return this.sumBy(i => i.fats());
+    return this.sumBy(i => i.fats() || 0);
   }
 
   totalNutritionValue(): number {
-    return this.sumBy(i => i.nutritionValue());
+    return this.sumBy(i => i.nutritionValue() || 0);
   }
 
   totalWeight(): number {
