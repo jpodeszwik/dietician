@@ -8,23 +8,27 @@
   </ng-container>
   <ng-container matColumnDef="weight">
     <th mat-header-cell *matHeaderCellDef> Weight </th>
-    <td mat-cell *matCellDef="let ingredient"> {{ingredient.weight}} </td>
+    <td mat-cell *matCellDef="let ingredient">
+      <mat-form-field>
+        <input matInput type="text" [(ngModel)]="ingredient.weight" />
+      </mat-form-field>
+    </td>
   </ng-container>
   <ng-container matColumnDef="proteins">
     <th mat-header-cell *matHeaderCellDef> Proteins </th>
-    <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredient.proteins}} </td>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient.proteins()}} </td>
   </ng-container>
   <ng-container matColumnDef="carbohydrates">
     <th mat-header-cell *matHeaderCellDef> Carbohydrates </th>
-    <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredient.carbohydrates}} </td>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient.carbohydrates()}} </td>
   </ng-container>
   <ng-container matColumnDef="fats">
     <th mat-header-cell *matHeaderCellDef> Fats </th>
-    <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredient.fats}} </td>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient.fats()}} </td>
   </ng-container>
   <ng-container matColumnDef="nutritionValue">
     <th mat-header-cell *matHeaderCellDef> Nutrition value </th>
-    <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredient.nutritionValue}} </td>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient.nutritionValue()}} </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
