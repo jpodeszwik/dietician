@@ -7,6 +7,7 @@
     <td mat-cell *matCellDef="let ingredient">
       <ng-select [items]="ingredients" [(ngModel)]="ingredient.ingredient" bindLabel="name" autofocus></ng-select>
     </td>
+    <td mat-footer-cell *matFooterCellDef> Total </td>
   </ng-container>
   <ng-container matColumnDef="weight">
     <th mat-header-cell *matHeaderCellDef> Weight </th>
@@ -15,24 +16,30 @@
         <input matInput type="text" [(ngModel)]="ingredient.weight" />
       </mat-form-field>
     </td>
+    <td mat-footer-cell *matFooterCellDef> {{meal.totalWeight()}} </td>
   </ng-container>
   <ng-container matColumnDef="proteins">
     <th mat-header-cell *matHeaderCellDef> Proteins </th>
     <td mat-cell *matCellDef="let ingredient"> {{ingredient.proteins()}} </td>
+    <td mat-footer-cell *matFooterCellDef> {{meal.totalProteins()}} </td>
   </ng-container>
   <ng-container matColumnDef="carbohydrates">
     <th mat-header-cell *matHeaderCellDef> Carbohydrates </th>
     <td mat-cell *matCellDef="let ingredient"> {{ingredient.carbohydrates()}} </td>
+    <td mat-footer-cell *matFooterCellDef> {{meal.totalCarbohydrates()}} </td>
   </ng-container>
   <ng-container matColumnDef="fats">
     <th mat-header-cell *matHeaderCellDef> Fats </th>
     <td mat-cell *matCellDef="let ingredient"> {{ingredient.fats()}} </td>
+    <td mat-footer-cell *matFooterCellDef> {{meal.totalFats()}} </td>
   </ng-container>
   <ng-container matColumnDef="nutritionValue">
     <th mat-header-cell *matHeaderCellDef> Nutrition value </th>
     <td mat-cell *matCellDef="let ingredient"> {{ingredient.nutritionValue()}} </td>
+    <td mat-footer-cell *matFooterCellDef> {{meal.totalNutritionValue()}} </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+  <tr mat-footer-row *matFooterRowDef="columnsToDisplay"></tr>
 </table>

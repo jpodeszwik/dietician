@@ -9,3 +9,7 @@
   flex-direction: column;
   flex-grow: 1;
 }
+
+tr.mat-footer-row {
+  font-weight: bold;
+}
