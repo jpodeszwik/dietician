@@ -1,0 +1,32 @@
+<mat-toolbar>
+  <span>{{meal.name}}</span>
+</mat-toolbar>
+<table mat-table [dataSource]="meal.ingredients" width="100%">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredient.name}} </td>
+  </ng-container>
+  <ng-container matColumnDef="weight">
+    <th mat-header-cell *matHeaderCellDef> Weight </th>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient.weight}} </td>
+  </ng-container>
+  <ng-container matColumnDef="proteins">
+    <th mat-header-cell *matHeaderCellDef> Proteins </th>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredient.proteins}} </td>
+  </ng-container>
+  <ng-container matColumnDef="carbohydrates">
+    <th mat-header-cell *matHeaderCellDef> Carbohydrates </th>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredient.carbohydrates}} </td>
+  </ng-container>
+  <ng-container matColumnDef="fats">
+    <th mat-header-cell *matHeaderCellDef> Fats </th>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredient.fats}} </td>
+  </ng-container>
+  <ng-container matColumnDef="nutritionValue">
+    <th mat-header-cell *matHeaderCellDef> Nutrition value </th>
+    <td mat-cell *matCellDef="let ingredient"> {{ingredient.ingredient.nutritionValue}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+</table>
