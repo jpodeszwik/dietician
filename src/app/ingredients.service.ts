@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Ingredient } from './ingredient';
+import { Ingredient } from './model/ingredient';
 import { take } from 'rxjs/operators';
 
 @Injectable({

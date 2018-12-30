@@ -1,4 +1,4 @@
-import { Ingredient } from '../ingredient';
+import { Ingredient } from './ingredient';
 
 export class MealIngredient {
   ingredient: Ingredient;
