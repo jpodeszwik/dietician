@@ -5,7 +5,7 @@
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Name </th>
     <td mat-cell *matCellDef="let ingredient">
-      <app-ingredient-input [ingredient]="ingredient.ingredient"></app-ingredient-input>
+      <ng-select [items]="ingredients" [(ngModel)]="ingredient.ingredient" bindLabel="name" autofocus></ng-select>
     </td>
   </ng-container>
   <ng-container matColumnDef="weight">

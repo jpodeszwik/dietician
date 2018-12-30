@@ -9,13 +9,12 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { MealComponent } from './meal/meal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IngredientInputComponent } from './meal/ingredient-input/ingredient-input.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
     AppComponent,
     MealComponent,
-    IngredientInputComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,6 +28,7 @@ import { IngredientInputComponent } from './meal/ingredient-input/ingredient-inp
     MatAutocompleteModule,
     MatTableModule,
     FlexLayoutModule,
+    NgSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

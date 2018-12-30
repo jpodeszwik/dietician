@@ -439,6 +439,13 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.2.11.tgz#32a853fad9974cbbc9fc766ec5699a18b22ccee6"
   integrity sha512-WyMXDxk/WZ+f2lOCeEvDWUce2f5Kk2sNfvArK8f+PlUnzFdy/MBzLXrmbMgyZXP7GP4ooUxYV8Sdmoh1hGk1Uw==
 
+"@ng-select/ng-select@^2.13.3":
+  version "2.13.3"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-2.13.3.tgz#5a573014334ea4fec906db48a0edebd8713835df"
+  integrity sha512-LRme/kXO8MYEUuPoP/VgrdBv/ynKNb1CDCgxqDs7Erqoe6Zmk7M0AOjhjTdsrSwCXmNXtf2EtgG8NaoAcZ0S6w==
+  dependencies:
+    tslib "^1.9.0"
+
 "@ngtools/webpack@7.1.4":
   version "7.1.4"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-7.1.4.tgz#632ece6ed8e05fe743554cc935be36a653376f01"

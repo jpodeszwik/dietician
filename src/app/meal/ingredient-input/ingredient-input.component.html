@@ -1,8 +1,0 @@
-<mat-form-field>
-  <input matInput type="text" [matAutocomplete]="auto" [formControl]="formControl" />
-  <mat-autocomplete #auto="matAutocomplete">
-    <mat-option *ngFor="let ingredient of filteredIngredients | async" [value]="ingredient.name">
-      {{ ingredient.name }}
-    </mat-option>
-  </mat-autocomplete>
-</mat-form-field>
