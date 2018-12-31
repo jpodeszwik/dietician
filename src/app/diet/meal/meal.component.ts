@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material';
 
-import { Meal } from '../model/meal';
-import { Ingredient } from '../model/ingredient';
-import { MealIngredient } from '../model/meal.ingredient';
+import { Meal } from '../../model/meal';
+import { Ingredient } from '../../model/ingredient';
+import { MealIngredient } from '../../model/meal.ingredient';
 
 @Component({
   selector: 'app-meal',

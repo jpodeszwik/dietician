@@ -7,16 +7,18 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
-import { MealComponent } from './meal/meal.component';
+import { MealComponent } from './diet/meal/meal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { DietSummaryComponent } from './diet-summary/diet-summary.component';
+import { DietSummaryComponent } from './diet/diet-summary/diet-summary.component';
+import { DietComponent } from './diet/diet.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MealComponent,
     DietSummaryComponent,
+    DietComponent,
   ],
   imports: [
     BrowserModule,

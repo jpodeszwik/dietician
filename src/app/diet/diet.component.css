@@ -1,0 +1,33 @@
+table {
+  width: 100%;
+}
+
+.ingredients {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1400px;
+}
+
+.meals-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.summary-toolbar {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+app-meal {
+  width: 100%;
+  margin-top: 10px;
+}
+
+app-diet-summary {
+  width: 100%;
+}

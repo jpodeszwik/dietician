@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Diet } from '../model/diet';
+import { Diet } from '../../model/diet';
 
 @Component({
   selector: 'app-diet-summary',

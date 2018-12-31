@@ -1,9 +1,2 @@
 <mat-toolbar color="primary"><span>{{title}}</span></mat-toolbar>
-<div class="meals-container">
-  <app-meal *ngFor="let meal of diet.meals; let idx = index" [meal]="meal" (remove)="removeMeal(idx)"></app-meal>
-  <mat-toolbar class="summary-toolbar">
-    <span>Summary</span>
-    <button mat-raised-button color="primary" (click)="addMeal()">Add meal</button>
-  </mat-toolbar>
-  <app-diet-summary [diet]="diet"></app-diet-summary>
-</div>
+<app-diet></app-diet>
