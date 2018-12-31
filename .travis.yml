@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+- '6'
+script:
+- yarn install
+- ng build
+deploy:
+  provider: firebase
+  skip_cleanup: true
+  token:
+    secure: "$FIREBASE_SECURE_TOKEN"
+env:
+  global:
+    secure: qn4o05AOEBPPojla3e2MSsi2isbQ5Ww+2oNsV86pXvdRQeMP6IfcImaiA9l408jG7vumukEdX7ZMQU+x3Etpl7So/tY5btuSc1hZVEGvHduRvYWuFhL8SVnoBpB7+CNrBQz1aXC9qUaRAvK/+6JtTIH5zlKb74My9IqZmaLyRdjv6KaDNSCNZgmT7CU2Mc0miQQGrhsqeW2/U9hbxlOdSVbaqVDxn30q2DuLx+Gzk6NUY5Z7oagv4hA4WGMoCWtQ566QE83WnI1RN/25xdFa4AuKoSMKM4Mqt3CLBhF6jQcrQMuYP1B09e9B4A88tWtyOJ160rQ4lsw6AWqIoaEuLXqQ3No6NeBWFouTu9QzAT9C+uvyvgHLSZk183gpvJBAuMAQGrzxHoAkypEare7ExpQT9znXPVlC2NZahmptZcY2ZFw7vKK8Wn6Fh2shK6k9bAHcWWk8/bjjGVhbyy8Hh9kaEN0rSGrG3p7wLfhua+KzXnvHHnIJe8vE/L74wwp6umeh2861dAXzmpyR5hXYumOl5vxRWWfLeNdwtr56rK9ivIbk1Gz+xBmb4gv5bGRV2uCLa0C01ppN4cBKy3UVumD1ShAEz34l1Fy8cBRT6zqYQM8Nl/DT6MUc1UXgo5KD8AkUY45wqXk5SI/aSQ9pUCUA8sBtn77cOR55KBiSFyE=
