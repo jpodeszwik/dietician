@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Ingredient } from './model/ingredient';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Injectable({
@@ -8,16 +9,12 @@ import { take } from 'rxjs/operators';
 })
 export class IngredientsService {
   private ingredientsCollection: AngularFirestoreCollection<Ingredient>;
-  private ingredients: Promise<Ingredient[]>;
 
   constructor(db: AngularFirestore) {
     this.ingredientsCollection = db.collection<Ingredient>('ingredients');
-    this.ingredients = this.ingredientsCollection.valueChanges()
-      .pipe(take(1))
-      .toPromise();
   }
 
-  getIngredients(): Promise<Ingredient[]> {
-    return this.ingredients;
+  getIngredients(): Observable<Ingredient[]> {
+    return this.ingredientsCollection.valueChanges();
   }
 }

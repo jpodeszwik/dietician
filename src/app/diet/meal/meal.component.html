@@ -10,7 +10,7 @@
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Name </th>
     <td mat-cell *matCellDef="let ingredient">
-      <ng-select [items]="ingredients" [(ngModel)]="ingredient.ingredient" bindLabel="name" autofocus></ng-select>
+      <ng-select [items]="ingredients | async" [(ngModel)]="ingredient.ingredient" bindLabel="name" autofocus></ng-select>
     </td>
     <td mat-footer-cell *matFooterCellDef> Total </td>
   </ng-container>
