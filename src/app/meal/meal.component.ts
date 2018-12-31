@@ -14,7 +14,7 @@ export class MealComponent implements OnInit {
   @Input() meal: Meal;
   @Output() remove: EventEmitter<any> = new EventEmitter();
   @ViewChild(MatTable) table: MatTable<MealIngredient>;
-  columnsToDisplay = ['name', 'weight', 'proteins', 'carbohydrates', 'fats', 'nutritionValue'];
+  columnsToDisplay = ['name', 'weight', 'proteins', 'carbohydrates', 'fats', 'nutritionValue', 'removeIngredient'];
   ingredients = [new Ingredient('0', 'Milk', 10, 5, 5, 100), new Ingredient('1', 'Butter', 5, 10, 10, 250)];
 
   constructor() {
@@ -29,6 +29,11 @@ export class MealComponent implements OnInit {
 
   addIngredient() {
     this.meal.ingredients.push(new MealIngredient(null, 100));
+    this.table.renderRows();
+  }
+
+  removeIngredient(index: number) {
+    this.meal.ingredients.splice(index, 1);
     this.table.renderRows();
   }
 }
