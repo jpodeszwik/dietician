@@ -10,11 +10,13 @@ import { environment } from '../environments/environment';
 import { MealComponent } from './meal/meal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DietSummaryComponent } from './diet-summary/diet-summary.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MealComponent,
+    DietSummaryComponent,
   ],
   imports: [
     BrowserModule,

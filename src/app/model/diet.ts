@@ -7,19 +7,23 @@ export class Diet {
     this.meals = meals;
   }
 
-  proteins(): number {
+  totalWeight(): number {
+    return this.sumBy(meal => meal.totalWeight());
+  }
+
+  totalProteins(): number {
     return this.sumBy(meal => meal.totalProteins());
   }
 
-  carbohydrates(): number {
+  totalCarbohydrates(): number {
     return this.sumBy(meal => meal.totalCarbohydrates());
   }
 
-  fats(): number {
+  totalFats(): number {
     return this.sumBy(meal => meal.totalFats());
   }
 
-  nutritionValue(): number {
+  totalNutritionValue(): number {
     return this.sumBy(meal => meal.totalNutritionValue());
   }
 

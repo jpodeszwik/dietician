@@ -1,0 +1,25 @@
+<table mat-table [dataSource]="diet" width="100%">
+  <ng-container matColumnDef="weight">
+    <th mat-header-cell *matHeaderCellDef> Weight </th>
+    <td mat-footer-cell *matFooterCellDef> {{diet.totalWeight()}} </td>
+  </ng-container>
+  <ng-container matColumnDef="proteins">
+    <th mat-header-cell *matHeaderCellDef> Proteins </th>
+    <td mat-footer-cell *matFooterCellDef> {{diet.totalProteins()}} </td>
+  </ng-container>
+  <ng-container matColumnDef="carbohydrates">
+    <th mat-header-cell *matHeaderCellDef> Carbohydrates </th>
+    <td mat-footer-cell *matFooterCellDef> {{diet.totalCarbohydrates()}} </td>
+  </ng-container>
+  <ng-container matColumnDef="fats">
+    <th mat-header-cell *matHeaderCellDef> Fats </th>
+    <td mat-footer-cell *matFooterCellDef> {{diet.totalFats()}} </td>
+  </ng-container>
+  <ng-container matColumnDef="nutritionValue">
+    <th mat-header-cell *matHeaderCellDef> Nutrition value </th>
+    <td mat-footer-cell *matFooterCellDef> {{diet.totalNutritionValue()}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-footer-row *matFooterRowDef="columnsToDisplay"></tr>
+</table>
