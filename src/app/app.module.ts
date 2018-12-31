@@ -12,6 +12,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DietSummaryComponent } from './diet/diet-summary/diet-summary.component';
 import { DietComponent } from './diet/diet.component';
+import { LoginComponent } from './auth/login/login.component';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { LogoutComponent } from './auth/logout/logout.component';
+import { AuthComponent } from './auth/auth.component';
 
 @NgModule({
   declarations: [
