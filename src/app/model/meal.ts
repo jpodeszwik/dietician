@@ -1,7 +1,7 @@
-import { MealIngredient } from './meal.ingredient';
+import {MealIngredient} from './meal.ingredient';
 
 export class Meal {
-  name: string
+  name: string;
   ingredients: MealIngredient[];
 
   constructor(name: string, ingredients: MealIngredient[]) {

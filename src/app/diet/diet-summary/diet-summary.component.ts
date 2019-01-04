@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Diet } from '../../model/diet';
+import {Component, OnInit, Input} from '@angular/core';
+import {Diet} from '../../model/diet';
 
 @Component({
   selector: 'app-diet-summary',
@@ -10,7 +10,8 @@ export class DietSummaryComponent implements OnInit {
   @Input() diet: Diet;
   columnsToDisplay = ['weight', 'proteins', 'carbohydrates', 'fats', 'nutritionValue'];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Diet } from '../model/diet';
-import { Meal } from '../model/meal';
+import {Component, OnInit} from '@angular/core';
+import {Diet} from '../model/diet';
+import {Meal} from '../model/meal';
 
 @Component({
   selector: 'app-diet',
