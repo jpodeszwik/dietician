@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {Ingredient} from './model/ingredient';
 import {Observable} from 'rxjs';
-import {take} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +9,11 @@ import {take} from 'rxjs/operators';
 export class IngredientsService {
   private ingredientsCollection: AngularFirestoreCollection<Ingredient>;
 
-  constructor(db: AngularFirestore) {
-    this.ingredientsCollection = db.collection<Ingredient>('ingredients');
+  constructor(private db: AngularFirestore) {
   }
 
-  getIngredients(): Observable<Ingredient[]> {
-    return this.ingredientsCollection.valueChanges();
+  getIngredients(): Promise<Ingredient[]> {
+    return this.db.collection<Ingredient>('ingredients').get().toPromise()
+      .then(snapshot => snapshot.docs.map(doc => <Ingredient>doc.data()));
   }
 }

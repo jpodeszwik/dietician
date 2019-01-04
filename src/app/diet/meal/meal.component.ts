@@ -4,7 +4,6 @@ import {MatTable} from '@angular/material';
 import {Meal} from '../../model/meal';
 import {Ingredient} from '../../model/ingredient';
 import {MealIngredient} from '../../model/meal.ingredient';
-import {Observable} from 'rxjs';
 import {IngredientsService} from 'src/app/ingredients.service';
 
 @Component({
@@ -17,13 +16,13 @@ export class MealComponent implements OnInit {
   @Output() remove: EventEmitter<any> = new EventEmitter();
   @ViewChild(MatTable) table: MatTable<MealIngredient>;
   columnsToDisplay = ['name', 'weight', 'proteins', 'carbohydrates', 'fats', 'nutritionValue', 'removeIngredient'];
-  ingredients: Observable<Ingredient[]>;
+  ingredients: Ingredient[];
 
-  constructor(ingredientService: IngredientsService) {
-    this.ingredients = ingredientService.getIngredients();
+  constructor(private ingredientService: IngredientsService) {
   }
 
   ngOnInit() {
+    this.ingredientService.getIngredients().then(ingredients => this.ingredients = ingredients);
   }
 
   removeMeal() {
