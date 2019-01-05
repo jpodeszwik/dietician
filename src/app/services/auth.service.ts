@@ -27,4 +27,8 @@ export class AuthService {
   signOut() {
     return this.firebaseAuth.auth.signOut();
   }
+
+  getUid() {
+    return this.user ? this.user.uid : null;
+  }
 }

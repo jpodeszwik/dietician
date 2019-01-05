@@ -1,4 +1,5 @@
 <div class="meals-container">
+  <button mat-raised-button color="primary" (click)="saveDiet()">Save diet</button>
   <app-meal *ngFor="let meal of diet.meals; let idx = index" [meal]="meal" (remove)="removeMeal(idx)"></app-meal>
   <mat-toolbar class="summary-toolbar">
     <span>Summary</span>

@@ -1,5 +1,5 @@
 <app-login *ngIf="authService.user === null"></app-login>
-<div *ngIf="authService.user !== null">
+<div *ngIf="authService.user">
   <span><b>{{authService.user.email}}</b></span>
   <app-logout></app-logout>
 </div>
