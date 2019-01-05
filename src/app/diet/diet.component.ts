@@ -1,7 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Diet} from '../model/diet';
 import {Meal} from '../model/meal';
 import {DietService} from './diet.service';
+import {ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-diet',
@@ -10,12 +12,20 @@ import {DietService} from './diet.service';
 })
 export class DietComponent implements OnInit {
   diet: Diet;
+  id: string;
 
-  constructor(private dietService: DietService) {
-    this.diet = new Diet([])
+  constructor(private dietService: DietService, private route: ActivatedRoute, private location: Location) {
+    this.diet = new Diet([]);
   }
 
   ngOnInit() {
+    this.route.paramMap.subscribe(val => {
+      const id = val.get('id');
+      if (id) {
+        this.dietService.getDiet(id)
+          .then(diet => this.diet = diet);
+      }
+    });
   }
 
   removeMeal(index: number) {
@@ -27,6 +37,6 @@ export class DietComponent implements OnInit {
   }
 
   saveDiet() {
-    this.dietService.saveDiet(this.diet);
+    this.dietService.saveDiet(this.diet).then(id => this.location.go(`diet/${id}`));
   }
 }

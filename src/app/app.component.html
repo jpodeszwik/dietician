@@ -2,4 +2,4 @@
   <span>{{title}}</span>
   <app-auth></app-auth>
 </mat-toolbar>
-<app-diet *ngIf="authService.user"></app-diet>
+<router-outlet *ngIf="authService.user"></router-outlet>

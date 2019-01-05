@@ -16,6 +16,12 @@ import {LoginComponent} from './auth/login/login.component';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {LogoutComponent} from './auth/logout/logout.component';
 import {AuthComponent} from './auth/auth.component';
+import {RouterModule, Routes} from '@angular/router';
+
+const appRoutes: Routes = [
+  {path: '', component: DietComponent},
+  {path: 'diet/:id', component: DietComponent},
+];
 
 @NgModule({
   declarations: [
@@ -42,6 +48,7 @@ import {AuthComponent} from './auth/auth.component';
     MatTableModule,
     FlexLayoutModule,
     NgSelectModule,
+    RouterModule.forRoot(appRoutes),
   ],
   providers: [],
   bootstrap: [AppComponent]
